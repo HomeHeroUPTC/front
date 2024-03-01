@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/reactnative,visualstudiocode,windows,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=reactnative,visualstudiocode,windows,node
 
+##Expo deploy##
+eas.json
+
 ### Node ###
 # Logs
 logs

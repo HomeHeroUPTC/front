@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HomeHeroFront",
-    "slug": "HomeHeroFront",
+    "slug": "homeherofront",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.darckronoz.homeherofront"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0de3da1c-c355-4f8e-ab72-17e8c0e842d3"
+      }
+    },
+    "owner": "darckronoz"
   }
 }
