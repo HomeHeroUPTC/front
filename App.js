@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import HeaderProfile from './src/components/HeaderProfile';
 import BlueButton, { Button } from './src/components/Button';
-import Info from './src/components/Info';
+import Info  from './src/components/Info';
+import Agenda from './src/components/Agenda';
 
 
 export default function App() {
@@ -28,6 +29,9 @@ export default function App() {
      <View style={style.Info}>
         <Info/>
      </View>
+     <View>
+      <Agenda style={style.Agenda}/>
+    </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -35,13 +39,16 @@ export default function App() {
 
 const style = StyleSheet.create({
   buttom:{
-    width: 400,
+    width: 100,
         height: 50,
     top: 100,
   left: 10,
   alignItems: 'center',
   },
   Info:{
+    top:550,
+  },
+  Agenda:{
     top:200,
   }
 })

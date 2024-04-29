@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     title: {
         left: 30,
         flexDirection: 'row',
-        fontSize: 14,
-        color: 'gray',
+        fontSize: 20,
+        color: 'black',
     },
     descrition:{
         
