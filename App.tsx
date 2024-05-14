@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./app/screens/Login";
-import lacosadelpz from "./app/screens/lacosadelpz";
+import lacosadelpz from "./app/screens/puntodeentrada";
 import React, { useEffect, useState } from 'react'
 import { User, onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from "./firebaseConfig";
