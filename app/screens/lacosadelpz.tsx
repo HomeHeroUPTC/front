@@ -11,6 +11,10 @@ interface RouteProps {
   navigation: NavigationProp<any, any>;
 }
 
+//cambiar el nombre de esto por puntodeentrada.tsx
+//aqui es donde deben probar sus pantallas
+//ponen un boton que redireccione a su pantalla y hacen pruebas con eso.
+
 export default function lacosadelpz({navigation}: RouteProps) {  
   return (
     <View>
