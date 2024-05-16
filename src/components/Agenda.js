@@ -16,7 +16,6 @@ const Agenda = () => {
             <View style={styles.conteiner}>
             <View style={styles.buttomCancelar}>
                 <BlueButton
-
                     text={"Modificar"}
                     style={styles.buttomCancelar}
                 />
