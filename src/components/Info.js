@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center', // Centra horizontalmente
         alignItems: 'center', // Centra verticalmente
+        backgroundColor: '#fff'
     },
     texts: {
         top: 4,
