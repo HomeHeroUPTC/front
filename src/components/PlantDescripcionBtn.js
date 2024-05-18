@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, Button} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
-const PlantDescripcionBtn = ({ imageUrl, title, description }) => {
+const PlantDescripcionBtn = ({ imageUrl, title, description, accionbtn1, accionbtn2,txtbtn1 }) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
@@ -20,12 +20,12 @@ const PlantDescripcionBtn = ({ imageUrl, title, description }) => {
                             {description+'                                                              '}
                         </Text>
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            title="Learn More"
-                            onPress={() => console.log('Button Pressed')}
-                        />
-                    </View>
+                    <TouchableOpacity style={[styles.button]} onPress={() => console.log(accionbtn1)}>
+                        <Text style={styles.buttonText}>{txtbtn1}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button2} onPress={() => console.log(accionbtn2)}>
+                        <Text style={styles.buttonText}>Cancelar</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -34,7 +34,7 @@ const PlantDescripcionBtn = ({ imageUrl, title, description }) => {
 
 const styles = StyleSheet.create({
     title: {
-        marginTop: 0, // Reducido el margen superior
+        marginTop: 0,
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -47,38 +47,56 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         textAlign: 'center',
-        alignItems: 'center', // Centers the text container horizontally
+        alignItems: 'center',
         alignSelf: 'center',
-        width: '100%', // Ensures the text container takes up a portion of the width for better justification
+        width: '100%',
     },
     imageContainer: {
-        marginTop: 15, // Eliminado el margen superior
+        marginTop: 15,
         alignSelf: 'center',
         width: 280,
         height: 200,
-        backgroundColor: '#f0f0f0', // Optional: for better visibility of the image area
+        backgroundColor: '#f0f0f0',
     },
     image: {
         width: '100%',
         height: '100%',
-        resizeMode: 'cover', // Ensure the image covers the entire container
+        resizeMode: 'cover',
     },
     description: {
         marginTop: 20,
         alignSelf: 'center',
-        textAlign: 'justify', // Justifies the text within the container
-        paddingHorizontal: 40, // Adds horizontal padding of 20 points (2 cm approximately)
+        textAlign: 'justify',
+        paddingHorizontal: 40,
     },
     container: {
         padding: 20,
-        top: 30,
         alignItems: 'center',
     },
     contentContainer: {
-        borderWidth: 0, // Añadido un borde delgado
-        borderColor: '#666', // Darker gray color for the border
-        borderRadius: 7, // Rounded corners of the border
-        backgroundColor: '#fff', // Background color white
+        borderWidth: 0,
+        borderColor: '#666',
+        borderRadius: 7,
+        backgroundColor: '#fff',
+    },
+    button: {
+        backgroundColor: '#0B7BFF',
+        padding: 13,
+        borderRadius: 2,
+        alignItems: 'center',
+        marginTop: 5,
+        opacity:10,
+    },button2: {
+        backgroundColor: '#BD0000',
+        padding: 13,
+        borderRadius: 2,
+        alignItems: 'center',
+        marginTop: 5,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 
