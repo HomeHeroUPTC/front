@@ -11,9 +11,6 @@ export default function Puntodeentrada({navigation}: RouteProps) {
     return (
         <View style={styles.container}>
             <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout"/>
-            <View
-                style={styles.button}>
-            </View>
             <View style={styles.button}>
                 <Button
                     title="2.Cotizacion"
@@ -44,7 +41,6 @@ export default function Puntodeentrada({navigation}: RouteProps) {
                     onPress={() => navigation.navigate('DoceCotizaciones')}
                 />
             </View>
-            <View style={styles.button}>
         </View>
     );
 };
