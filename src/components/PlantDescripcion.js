@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 14,
         alignSelf: 'center',
-        textAlign: "justify"
+        textAlign: "justify",
     },
     textContainer: {
         textAlign: 'center',

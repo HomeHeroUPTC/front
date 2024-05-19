@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, Button} from 'react-native';
-
 import {NavigationProp} from '@react-navigation/native';
 import {FIREBASE_AUTH} from '../../firebaseConfig';
 
@@ -13,7 +12,6 @@ export default function Puntodeentrada({navigation}: RouteProps) {
         <View style={styles.container}>
             <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout"/>
             <View
-
                 style={styles.button}>
             </View>
             <View style={styles.button}>
@@ -30,10 +28,17 @@ export default function Puntodeentrada({navigation}: RouteProps) {
             </View>
             <View style={styles.button}>
                 <Button
-                    title="4.Visitas"
+                    title="31.HomeHH"
                     onPress={() => navigation.navigate('HomeHH')}
                 />
             </View>
+            <View style={styles.button}>
+                <Button
+                    title="12.DoceCotizaciones"
+                    onPress={() => navigation.navigate('DoceCotizaciones')}
+                />
+            </View>
+            <View style={styles.button}>
         </View>
     );
 };

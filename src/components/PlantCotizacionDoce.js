@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
-const PlantDescripcionBtn = ({imageUrl, tituloServicioProfesional, fechaHora, valor, nombreCliente}) => {
+const PlantDescripcionDoce = ({imageUrl, nombreProfesional, valorCotizacion, fechaHora, tituloServicioProfesional}) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
-                <View style={styles.text}>
+                <View style={styles.text1}>
                     <Text style={styles.title}>
                         {tituloServicioProfesional}
                     </Text>
@@ -16,22 +16,21 @@ const PlantDescripcionBtn = ({imageUrl, tituloServicioProfesional, fechaHora, va
                         />
                     </View>
                     <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Fecha: "}</Text>
+                        <Text style={styles.text}>{"Fecha y hora: "}</Text>
                         <Text style={styles.text1}>{fechaHora}
                         </Text>
                     </View>
                     <View style={styles.containerlabel}>
                         <Text style={styles.text}>{"Valor: "}</Text>
-                        <Text style={styles.text1}>{valor}
+                        <Text style={styles.text1}>{valorCotizacion}
                         </Text>
                     </View>
                     <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Cliente: "}</Text>
-                        <Text style={styles.text1}>{nombreCliente}
-                        </Text>
+                            <Text style={styles.text}>{"Profesional: "}</Text>
+                            <Text style={styles.text1}>{nombreProfesional}</Text>
                     </View>
                     <TouchableOpacity style={[styles.button]} onPress={() => console.log(accionbtn1)}>
-                        <Text style={styles.buttonText}>{'Ver mas'}</Text>
+                        <Text style={styles.buttonText}>{'Re-Agendar'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button2} onPress={() => console.log(accionbtn2)}>
                         <Text style={styles.buttonText}>Cancelar</Text>
@@ -44,7 +43,7 @@ const PlantDescripcionBtn = ({imageUrl, tituloServicioProfesional, fechaHora, va
 
 const styles = StyleSheet.create({
     title: {
-        marginTop: 0,
+        marginTop: 0, // Reducido el margen superior
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -55,49 +54,46 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: "justify",
         fontWeight: 'bold',
+    },text1: {
+        marginTop: 20,
+        fontSize: 14,
+        alignSelf: 'center',
+        textAlign: "justify",
     },
     textContainer: {
         textAlign: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        width: '100%',
+        alignItems: 'center', // Centers the text container horizontally
+        width: '100%', // Ensures the text container takes up a portion of the width for better justification
     },
     imageContainer: {
-        marginTop: 15,
+        marginTop: 15, // Eliminado el margen superior
         alignSelf: 'center',
-        width: 280,
+        width: 300,
         height: 200,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#f0f0f0', // Optional: for better visibility of the image area
     },
     image: {
         width: '100%',
         height: '100%',
-        resizeMode: 'cover',
-    },
-    description: {
-        marginTop: 20,
-        alignSelf: 'center',
-        textAlign: 'justify',
-        paddingHorizontal: 40,
+        resizeMode: 'cover', // Ensure the image covers the entire container
     },
     container: {
         padding: 20,
         alignItems: 'center',
     },
     contentContainer: {
-        borderWidth: 0,
-        borderColor: '#666',
-        borderRadius: 7,
-        backgroundColor: '#fff',
-    },
-    button: {
+        borderWidth: 0, // Añadido un borde delgado
+        borderColor: '#666', // Darker gray color for the border
+        borderRadius: 7, // Rounded corners of the border
+        backgroundColor: '#fff', // Background color white
+    },button: {
         backgroundColor: '#0B7BFF',
         padding: 13,
         borderRadius: 2,
         alignItems: 'center',
         marginTop: 5,
-        opacity: 10,
-    }, button2: {
+        opacity:10,
+    },button2: {
         backgroundColor: '#BD0000',
         padding: 13,
         borderRadius: 2,
@@ -115,12 +111,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
     },
-    text1: {
-        marginTop: 20,
-        fontSize: 14,
-        alignSelf: 'center',
-        textAlign: "justify",
-    }
 });
 
-export default PlantDescripcionBtn;
+export default PlantDescripcionDoce;
