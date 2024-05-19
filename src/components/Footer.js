@@ -8,13 +8,13 @@ const Footer = () => {
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-                    source={require('../assets/images/HomeIcon.png')}
+                    source={require('../../assets/images/HomeIcon.png')}
                 />
                 <Text style={styles.text}>Home</Text>
             </View>
             <Image
                 style={styles.image}
-                source={require('../assets/images/HomeIcon.png')}
+                source={require('../../assets/images/HomeIcon.png')}
             />
         </View>
     );

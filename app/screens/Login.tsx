@@ -2,14 +2,17 @@ import {View, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoiding
 import React, { useState } from 'react';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '../../src/components/utils/correo';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(Boolean);
     const auth = FIREBASE_AUTH
+    const {setUserEmail} = useAuth();
 
     const signIn = async () => {
+        setUserEmail(email)
         setLoading(true);
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
@@ -32,7 +35,7 @@ const Login = () => {
             console.log(error);
             alert('fallo en el registro' + error.message)
         }finally{
-            setLoading(false);
+            setLoading(false);  
         }
     }
 
@@ -55,6 +58,7 @@ const Login = () => {
             (<>
                 <Button title='Login' onPress={() => signIn()}/>
                 <Button title='Register' onPress={() => signUp()}/>
+                
             </>
             )}
             </KeyboardAvoidingView>
