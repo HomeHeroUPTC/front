@@ -7,6 +7,7 @@ import { User, onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from "./firebaseConfig";
 import Cotizaciones from "./app/screens/Cotizaciones";
 import Visitas from "./app/screens/Visitas";
+import HomeCliente from "./app/screens/HomeClient";
 
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ function InsideLayout() {
             <InsideStack.Screen name='Home Hero' component={puntodeentrada}/>
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones}/>
             <InsideStack.Screen name='Visitas' component={Visitas}/>
-
+            <InsideStack.Screen name='HomeCliente' component={HomeCliente}/>
         </InsideStack.Navigator>
     )
 }

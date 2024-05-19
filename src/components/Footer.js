@@ -8,14 +8,38 @@ const Footer = () => {
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-                    source={require('../assets/images/HomeIcon.png')}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
                 />
-                <Text style={styles.text}>Home</Text>
+                <Text style={styles.text}>Agenda</Text>
             </View>
-            <Image
-                style={styles.image}
-                source={require('../assets/images/HomeIcon.png')}
-            />
+            <View style={styles.iconButton}>
+                <Image
+                    style={styles.image}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/time-machine.png' }}
+                />
+                <Text style={styles.text}>Historial</Text>
+            </View>
+            <View style={styles.iconButton}>
+                <Image
+                    style={styles.image}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/home.png' }}
+                />
+                <Text style={styles.text}>Inicio</Text>
+            </View>
+            <View style={styles.iconButton}>
+                <Image
+                    style={styles.image}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/receipt-dollar.png' }}
+                />
+                <Text style={styles.text}>Cotizaciones</Text>
+            </View>
+            <View style={styles.iconButton}>
+                <Image
+                    style={styles.image}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/visit.png' }}
+                />
+                <Text style={styles.text}>Visitas</Text>
+            </View>
         </View>
     );
 };
@@ -31,7 +55,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 0,
         width: '100%',
-        height: 42,
+        height: 48,
         backgroundColor: '#fff'
     },
     image: {
@@ -39,10 +63,10 @@ const styles = StyleSheet.create({
         height: 24, // Altura de la imagen
     },
     iconButton:{
-        backgroundColor: 'pink',
+        top: '0.5%',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     text: {
         fontSize: 10

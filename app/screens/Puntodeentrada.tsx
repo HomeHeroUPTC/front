@@ -25,7 +25,13 @@ export default function Puntodeentrada({navigation}: RouteProps) {
             <View style={styles.button}>
                 <Button
                     title="4.Visitas"
-                    onPress={() => navigation.navigate('Visitas')}
+                    onPress={() => navigation.navigate('HomeCliente')}
+                />
+            </View>
+            <View style={styles.button}>
+                <Button
+                    title="23.HomeCliente"
+                    onPress={() => navigation.navigate('HomeCliente')}
                 />
             </View>
         </View>
