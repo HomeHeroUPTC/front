@@ -28,6 +28,12 @@ export default function Puntodeentrada({navigation}: RouteProps) {
                     onPress={() => navigation.navigate('Visitas')}
                 />
             </View>
+            <View style={styles.button}>
+                <Button
+                    title="4.Visitas"
+                    onPress={() => navigation.navigate('HomeHH')}
+                />
+            </View>
         </View>
     );
 };
