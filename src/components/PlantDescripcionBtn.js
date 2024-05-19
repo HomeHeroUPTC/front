@@ -1,27 +1,37 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
-const PlantDescripcionBtn = ({ imageUrl, title, description, accionbtn1, accionbtn2,txtbtn1 }) => {
+const PlantDescripcionBtn = ({imageUrl, tituloServicioProfesional, fechaHora, valor, nombreCliente}) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
                 <View style={styles.text}>
                     <Text style={styles.title}>
-                        {title}
+                        {tituloServicioProfesional}
                     </Text>
                     <View style={styles.imageContainer}>
                         <Image
                             style={styles.image}
-                            source={{ uri: imageUrl }}
+                            source={{uri: imageUrl}}
                         />
                     </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.description}>
-                            {description+'                                                              '}
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"Fecha: "}</Text>
+                        <Text style={styles.text1}>{fechaHora}
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"Valor: "}</Text>
+                        <Text style={styles.text1}>{valor}
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"Cliente: "}</Text>
+                        <Text style={styles.text1}>{nombreCliente}
                         </Text>
                     </View>
                     <TouchableOpacity style={[styles.button]} onPress={() => console.log(accionbtn1)}>
-                        <Text style={styles.buttonText}>{txtbtn1}</Text>
+                        <Text style={styles.buttonText}>{'Ver mas'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button2} onPress={() => console.log(accionbtn2)}>
                         <Text style={styles.buttonText}>Cancelar</Text>
@@ -43,7 +53,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 14,
         alignSelf: 'center',
-        textAlign: "justify"
+        textAlign: "justify",
+        fontWeight: 'bold',
     },
     textContainer: {
         textAlign: 'center',
@@ -85,8 +96,8 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         alignItems: 'center',
         marginTop: 5,
-        opacity:10,
-    },button2: {
+        opacity: 10,
+    }, button2: {
         backgroundColor: '#BD0000',
         padding: 13,
         borderRadius: 2,
@@ -98,6 +109,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    containerlabel: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+    },
+    text1: {
+        marginTop: 20,
+        fontSize: 14,
+        alignSelf: 'center',
+        textAlign: "justify",
+    }
 });
 
 export default PlantDescripcionBtn;

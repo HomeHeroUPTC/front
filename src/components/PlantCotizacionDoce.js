@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
-const PlantDescripcionDoce = ({imageUrl, nombreTrabajo, valorCotizacion, fechaHora, tituloServicioProfesional}) => {
+const PlantDescripcionDoce = ({imageUrl, nombreProfesional, valorCotizacion, fechaHora, tituloServicioProfesional}) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
                 <View style={styles.text1}>
                     <Text style={styles.title}>
-                        {nombreTrabajo}
+                        {tituloServicioProfesional}
                     </Text>
                     <View style={styles.imageContainer}>
                         <Image
@@ -27,11 +27,10 @@ const PlantDescripcionDoce = ({imageUrl, nombreTrabajo, valorCotizacion, fechaHo
                     </View>
                     <View style={styles.containerlabel}>
                             <Text style={styles.text}>{"Profesional: "}</Text>
-                            <Text style={styles.text1}>{tituloServicioProfesional}</Text>
-
+                            <Text style={styles.text1}>{nombreProfesional}</Text>
                     </View>
                     <TouchableOpacity style={[styles.button]} onPress={() => console.log(accionbtn1)}>
-                        <Text style={styles.buttonText}>{'Cotizar'}</Text>
+                        <Text style={styles.buttonText}>{'Re-Agendar'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button2} onPress={() => console.log(accionbtn2)}>
                         <Text style={styles.buttonText}>Cancelar</Text>
