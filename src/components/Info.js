@@ -1,39 +1,30 @@
 import React from "react";
-import { StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import BlueButton from "./Button";
 
-const Info = () => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.info}>
-                <Image
-                    style={styles.image}
-                    source={{ uri: 'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400' }}
-                />
-                <View style={styles.textContainer}>
-                    <View style={styles.texts}>
-                        <Text style={styles.title}>
-                            Carpintería
-                        </Text>
-                        <Text style={styles.paragraph}>
-                        Muebles únicos y a medida que transforman tu hogar. Cada pieza, una obra de arte. Calidad, estilo y funcionalidad en cada detalle.Muebles únicos y a medida para transform
-                        </Text>
-                    </View>    
-                    <View style={styles.buttonContainer}>
-                        <BlueButton
-                            style={styles.button}
-                            text={"       Modificar       "}
-                            onPress={() => console.log("Botón 1 presionado")}
-                            backgroundColor="#0B7BFF"
-                            textColor="#fff"
-                        />
-                    </View>
-                </View>
-            </View>
+const Info = ({ servicio }) => {
+    console.log(servicio)
+  return (
+    <View style={styles.container}>
+      <View style={styles.info}>
+        <Image
+            style={styles.image}
+            source={{ uri: servicio.imagenUrl }}
+        />
+        <View style={styles.textContainer}>
+          <View style={styles.texts}>
+            <Text style={styles.title}>
+              {servicio.titulo}
+            </Text>
+            <Text style={styles.paragraph}>
+              {servicio.descripcion}
+            </Text>
+          </View>
         </View>
-    )
+      </View>
+    </View>
+  )
 };
-
 
 const styles = StyleSheet.create({
     container:{
@@ -116,6 +107,4 @@ const styles = StyleSheet.create({
     }
 })
 
-
 export default Info;
-

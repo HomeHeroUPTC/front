@@ -1,46 +1,50 @@
-import React from "react";
-import { StyleSheet, Text, View, Image} from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 
 const HeaderProfile = ({ userImage, username, description, companyName }) => {
+    const [keyword, setKeyword] = useState('');
+    const [results, setResults] = useState([]);
+
+    const handleSearch = async () => {
+        // Implement your search logic here
+        // Example: Fetch data from API based on keyword
+    };
+
     return(
         <View style={styles.container}>
             <View style={styles.companyLogoContainer}>
-                <Image
-                    style={styles.calendarLogo}
-                    source={require('../../assets/images/Calendar2.png')}
-                />
-                <View style={styles.containerCompany}>
+                <View style={styles.userInfo}>
                     <Image
-                        style={styles.companyLogo}
-                        source={require('../../assets/images/LogoApp.png')}
+                        style={styles.logo}
+                        source={{uri:userImage}}
                     />
-                    <Text style={styles.companyName}>{companyName}</Text>
+                    <Text style={styles.username}>{username}</Text>
                 </View>
-            </View>
-            <View style={styles.userInfo}>
                 <Image
-                    style={styles.logo}
-                    source={{uri:userImage}}
+                    style={styles.companyLogo}
+                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/LogoApp.png?alt=media&token=b1b2758c-c7bb-4bcb-8683-82e8e92a82c3' }}
                 />
-                <Text style={styles.username}>{username}</Text>
-                <View style={styles.description}>
-                    <Text style={styles.title}>{description}</Text>
-                </View>
             </View>
+            <View style={styles.searchContainer}>
+                <TextInput
+                    style={styles.searchInput}
+                    value={keyword}
+                    onChangeText={setKeyword}
+                    placeholder="Search..."
+                />
+                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                    <Text style={styles.buttonText}>Search</Text>
+                </TouchableOpacity>
+            </View>
+            {/* Render search results here */}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        top: 25,
+        top: '10%',
         bottom: 5,
-    },
-    containerCompany: {
-        flexDirection: 'row',
-        justifyContent: 'center',// Centra horizontalmente
-        alignSelf: 'center',
-        left: '20%'
     },
     calendarLogo: {
         width: 33,
@@ -53,12 +57,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     companyLogoContainer: {
-        top: 8,
+        flex: 1,
         borderBottomColor: '#e3e4e7', // Color de la línea
         borderBottomWidth: 1, // Grosor de la línea
-        paddingBottom: 0, // Espacio debajo de la línea
+        paddingBottom: '1%', // Espacio debajo de la línea
         flexDirection: 'row',
-        alignContent: 'center',
+        alignItems: 'center'
     },
     containerImage: {
         alignContent: 'center',
@@ -67,11 +71,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: 35,
         height: 35,
-    },
-    companyName: {
-        top: 0,
-        fontSize: 20,
-        color: '#171717'
+        marginLeft: '13%'
     },
     logo: {
         width: 30,
@@ -81,16 +81,17 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     userInfo: {
-        height: '40%',
-        marginTop: 15,
+        height: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 2,
-        color: '#171717'
+        color: '#171717',
     },
     username: {
-        fontSize: 18,
-        color: '#171717'
+        alignContent: 'center',
+        alignItems: 'center',
+        fontSize: 16,
+        color: '#171717',
     },
     title: {
         color: '#0B7BFF',
@@ -104,7 +105,34 @@ const styles = StyleSheet.create({
         right: 3,
         flex: 1,
         justifyContent: 'flex-end', // Alinea el contenido a la derecha
-    }
+    },
+    searchContainer: {
+        top: '3%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 0,
+    },
+    searchInput: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 4,
+        paddingVertical: 2,
+        paddingHorizontal: 10,
+        marginRight: '4%',
+        left: '20%'
+    },
+    searchButton: {
+        backgroundColor: '#007bff',
+        paddingHorizontal: 8,
+        paddingVertical: 7,
+        borderRadius: 4,
+        right: 7
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
 });
 
 export default HeaderProfile;
