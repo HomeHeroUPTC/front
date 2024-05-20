@@ -8,11 +8,7 @@ const Footer = () => {
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-<<<<<<< HEAD
                     source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
-=======
-                    source={require('../../assets/images/HomeIcon.png')}
->>>>>>> 7dac0dae1352a34d4ca1e17a7d0da25ea090134d
                 />
                 <Text style={styles.text}>Agenda</Text>
             </View>
@@ -44,13 +40,6 @@ const Footer = () => {
                 />
                 <Text style={styles.text}>Visitas</Text>
             </View>
-<<<<<<< HEAD
-=======
-            <Image
-                style={styles.image}
-                source={require('../../assets/images/HomeIcon.png')}
-            />
->>>>>>> 7dac0dae1352a34d4ca1e17a7d0da25ea090134d
         </View>
     );
 };

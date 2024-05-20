@@ -44,6 +44,12 @@ export default function Puntodeentrada({navigation}: RouteProps) {
                     onPress={() => navigation.navigate('DoceCotizaciones')}
                 />
             </View>
+            <View style={styles.button}>
+                <Button
+                    title="24.Feed Profesionales Cliente"
+                    onPress={() => navigation.navigate('ProfesionalesDelServicio')}
+                />
+            </View>
         </View>
     );
 };
