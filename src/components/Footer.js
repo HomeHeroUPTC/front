@@ -1,45 +1,52 @@
 import React from "react";
-import { StyleSheet, View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 import BlueButton from './Button'; // Importa el componente BlueButton
 
 const Footer = () => {
     return (
         <View style={styles.container}>
             <View style={styles.iconButton}>
+<<<<<<< HEAD
+=======
                 <Image
                     style={styles.image}
                     source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
                 />
+>>>>>>> c2d1d68b53d0f809479b0f3f417d325d8662af18
                 <Text style={styles.text}>Agenda</Text>
             </View>
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/time-machine.png' }}
+                    source={{uri: 'https://img.icons8.com/ios-filled/100/000000/time-machine.png'}}
                 />
                 <Text style={styles.text}>Historial</Text>
             </View>
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/home.png' }}
+                    source={{uri: 'https://img.icons8.com/ios-filled/100/000000/home.png'}}
                 />
                 <Text style={styles.text}>Inicio</Text>
             </View>
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/receipt-dollar.png' }}
+                    source={{uri: 'https://img.icons8.com/ios-filled/100/000000/receipt-dollar.png'}}
                 />
                 <Text style={styles.text}>Cotizaciones</Text>
             </View>
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
-                    source={{ uri: 'https://img.icons8.com/ios-filled/100/visit.png' }}
+                    source={{uri: 'https://img.icons8.com/ios-filled/100/visit.png'}}
                 />
                 <Text style={styles.text}>Visitas</Text>
             </View>
+<<<<<<< HEAD
+
+=======
+>>>>>>> c2d1d68b53d0f809479b0f3f417d325d8662af18
         </View>
     );
 };
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
         width: 24, // Ancho de la imagen
         height: 24, // Altura de la imagen
     },
-    iconButton:{
+    iconButton: {
         top: '0.5%',
         flexDirection: 'column',
         justifyContent: 'center',
