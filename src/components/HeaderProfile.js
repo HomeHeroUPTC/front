@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
 const HeaderProfile = ({ userImage, username, description, companyName }) => {
     const [keyword, setKeyword] = useState('');
     const [results, setResults] = useState([]);
+    const [userType, setUserType] = useState('HomeHero');
 
     const handleSearch = async () => {
         // Implement your search logic here
@@ -25,7 +26,8 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
                     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/LogoApp.png?alt=media&token=b1b2758c-c7bb-4bcb-8683-82e8e92a82c3' }}
                 />
             </View>
-            <View style={styles.searchContainer}>
+            {userType === 'cliente' ?(
+                <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.searchInput}
                     value={keyword}
@@ -36,6 +38,7 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
                     <Text style={styles.buttonText}>Search</Text>
                 </TouchableOpacity>
             </View>
+            ):null}
             {/* Render search results here */}
         </View>
     );
