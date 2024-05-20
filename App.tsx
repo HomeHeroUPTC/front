@@ -14,6 +14,8 @@ import { ServiciosProvider } from "./src/components/utils/serviciosList";
 import DoceCotizaciones from "./app/screens/DoceCotizaciones";
 import RegistrarServicios from "./app/screens/RegistrarServicios";
 import FeedHHClient from "./app/screens/ProfesionalesDelServicio";
+import { RoleProvider } from "./src/components/utils/verificarcorreo";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +24,7 @@ const InsideStack = createNativeStackNavigator();
 function InsideLayout() {
     return (
         <InsideStack.Navigator>
+            <InsideStack.Screen name='Login' component={Login}/>
             <InsideStack.Screen name='Home Hero' component={puntodeentrada} />
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones} />
             <InsideStack.Screen name='Visitas' component={Visitas} />
@@ -36,6 +39,7 @@ function InsideLayout() {
 
 export default function App() {
     const [user, setUser] = useState<User | null>(null);
+    
 
     useEffect(() => {
         onAuthStateChanged(FIREBASE_AUTH, (user) => {
@@ -46,6 +50,7 @@ export default function App() {
 
     return (
         <AuthProvider>
+            <RoleProvider>
             <ServiciosProvider>
             <NavigationContainer>
                 <Stack.Navigator initialRouteName="Login">
@@ -57,6 +62,7 @@ export default function App() {
                 </Stack.Navigator>
             </NavigationContainer>
             </ServiciosProvider>
+            </RoleProvider>
         </AuthProvider>
     );
 };
