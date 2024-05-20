@@ -6,8 +6,6 @@ import { useAuth } from '../../src/components/utils/correo';
 import { useRole } from '../../src/components/utils/verificarcorreo';
 import {NavigationProp} from '@react-navigation/native';
 
-
-
 interface RouteProps {
     navigation: NavigationProp<any, any>;
 }

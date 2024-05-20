@@ -1,4 +1,4 @@
-import {StyleSheet, View, ScrollView, Text, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import {NavigationProp} from '@react-navigation/native';
 import React from "react";
 import FormularioProfesionalJS from "../../src/components/FormularioProfesional";
