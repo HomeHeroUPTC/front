@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 
 const FormularioProfesional = () => {
     const [nombre, setNombre] = useState('');
@@ -15,8 +15,21 @@ const FormularioProfesional = () => {
             Alert.alert('Campos Incompletos', 'Por favor complete todos los campos.');
             return;
         }
-        // Aquí iría la lógica para registrar el cliente
-        console.log('Registrando profesional:', { nombre, id, correo, direccion, ciudad: selectedCity, profesion: selectedProfesion });
+
+
+        // Crear el objeto con los datos del profesional
+        const nuevoProfesional = {
+            nombre,
+            id,
+            correo,
+            direccion,
+            ciudad: selectedCity,
+            profesion: selectedProfesion
+        };
+
+        // Guardar el objeto en el estado o enviarlo al endpoint del microservicio para registrarlo
+        // Aquí iría la lógica para registrar el profesional
+        console.log('Registrando profesional:', nuevoProfesional);
     };
 
     return (
@@ -51,15 +64,15 @@ const FormularioProfesional = () => {
                         onChangeText={setDireccion}
                         accessibilityLabel="DireccionInput"
                     />
-                    <View style={[styles.pickerContainer, { marginBottom: 16 }]}>
+                    <View style={[styles.pickerContainer, {marginBottom: 16}]}>
                         <Picker
                             selectedValue={selectedProfesion}
                             onValueChange={(itemValue) => setSelectedProfesion(itemValue)}
                             accessibilityLabel="ProfesionPicker">
-                            <Picker.Item label="Seleccione su profesion" value="" />
-                            <Picker.Item label="Electicista" value="electicista" />
-                            <Picker.Item label="Pintor" value="pintor" />
-                            <Picker.Item label="Plomero" value="plomero" />
+                            <Picker.Item label="Seleccione su profesion" value=""/>
+                            <Picker.Item label="Electicista" value="electicista"/>
+                            <Picker.Item label="Pintor" value="pintor"/>
+                            <Picker.Item label="Plomero" value="plomero"/>
                         </Picker>
                     </View>
                     <View style={styles.pickerContainer}>
@@ -67,11 +80,11 @@ const FormularioProfesional = () => {
                             selectedValue={selectedCity}
                             onValueChange={(itemValue) => setSelectedCity(itemValue)}
                             accessibilityLabel="CiudadPicker">
-                            <Picker.Item label="Seleccione su ciudad" value="" />
-                            <Picker.Item label="Tunja" value="tunja" />
-                            <Picker.Item label="Bogotá" value="bogota" />
-                            <Picker.Item label="Medellín" value="medellin" />
-                            <Picker.Item label="Bucaramanga" value="bucaramanga" />
+                            <Picker.Item label="Seleccione su ciudad" value=""/>
+                            <Picker.Item label="Tunja" value="tunja"/>
+                            <Picker.Item label="Bogotá" value="bogota"/>
+                            <Picker.Item label="Medellín" value="medellin"/>
+                            <Picker.Item label="Bucaramanga" value="bucaramanga"/>
                         </Picker>
                     </View>
                     <TouchableOpacity style={styles.button} onPress={handleRegistrarProfesional}>
