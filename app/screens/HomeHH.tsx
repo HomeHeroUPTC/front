@@ -7,6 +7,8 @@ import RoundButton from '../../src/components/ButonAdd';
 import Footer from '../../src/components/Footer';
 import HeaderProfile from '../../src/components/HeaderProfile';
 import { useServicios } from '../../src/components/utils/serviciosList';
+import InsideLayoutHH from '../../src/components/utils/RutasHH';
+
 
 
 interface RouteProps {
@@ -14,7 +16,7 @@ interface RouteProps {
 }
 
 const handlePress = () => {
-    alert('Button pressed!');
+    ;
 };
 
 export default function HomeHH({ navigation }: RouteProps) {
@@ -58,7 +60,7 @@ export default function HomeHH({ navigation }: RouteProps) {
                     ))
                 )}
             </ScrollView>
-            <RoundButton onPress={agregarServicio} />
+            <RoundButton onPress={() => navigation.navigate('RegistrarServicios')} />
             <Footer />
         </View>
     );
@@ -77,7 +79,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ccc',  // Ajusta según el estilo del footer
     },
     header: {
-        height: 120,  // Reducir la altura del encabezado
+        height: '12%',
+      backgroundColor: '#fff',
     },
     noServicesText: {
         textAlign: 'center',

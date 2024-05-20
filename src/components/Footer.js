@@ -6,6 +6,13 @@ const Footer = () => {
     return (
         <View style={styles.container}>
             <View style={styles.iconButton}>
+<<<<<<< HEAD
+=======
+                <Image
+                    style={styles.image}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
+                />
+>>>>>>> c2d1d68b53d0f809479b0f3f417d325d8662af18
                 <Text style={styles.text}>Agenda</Text>
             </View>
             <View style={styles.iconButton}>
@@ -36,7 +43,10 @@ const Footer = () => {
                 />
                 <Text style={styles.text}>Visitas</Text>
             </View>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c2d1d68b53d0f809479b0f3f417d325d8662af18
         </View>
     );
 };
