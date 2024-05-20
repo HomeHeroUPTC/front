@@ -12,6 +12,8 @@ import HomeHH from "./app/screens/HomeHH";
 import { AuthProvider } from "./src/components/utils/correo";
 import { ServiciosProvider } from "./src/components/utils/serviciosList";
 import DoceCotizaciones from "./app/screens/DoceCotizaciones";
+import FormularioCliente from "./app/screens/FormularioCliente";
+import FormularioProfesional from "./app/screens/FormularioProfesional";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +28,8 @@ function InsideLayout() {
             <InsideStack.Screen name='HomeHH' component={HomeHH} />
             <InsideStack.Screen name='DoceCotizaciones' component={DoceCotizaciones}/>
             <InsideStack.Screen name='HomeCliente' component={HomeCliente}/>
+            <InsideStack.Screen name='FormularioCliente' component={FormularioCliente}/>
+            <InsideStack.Screen name='FormularioProfesional' component={FormularioProfesional}/>
         </InsideStack.Navigator>
     )
 }
