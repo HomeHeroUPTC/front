@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Alert, ScrollView, ActivityIndicator, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator, Text } from 'react-native';
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import Info from '../../src/components/Info.js';
 import Footer from '../../src/components/Footer.js';
