@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
 const HeaderProfile = ({ userImage, username, description, companyName }) => {
     const [keyword, setKeyword] = useState('');
     const [results, setResults] = useState([]);
+    const [userType, setUserType] = useState('HomeHero');
 
     const handleSearch = async () => {
         // Implement your search logic here
@@ -26,7 +27,8 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
                 />
                 <Text style={styles.title}>{description}</Text>
             </View>
-            <View style={styles.searchContainer}>
+            {userType === 'cliente' ?(
+                <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.searchInput}
                     value={keyword}
@@ -37,6 +39,7 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
                     <Text style={styles.buttonText}>Search</Text>
                 </TouchableOpacity>
             </View>
+            ):null}
             {/* Render search results here */}
         </View>
     );
