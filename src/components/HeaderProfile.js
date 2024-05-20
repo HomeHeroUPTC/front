@@ -25,6 +25,7 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
                     style={styles.companyLogo}
                     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/LogoApp.png?alt=media&token=b1b2758c-c7bb-4bcb-8683-82e8e92a82c3' }}
                 />
+                <Text style={styles.title}>{description}</Text>
             </View>
             {userType === 'cliente' ?(
                 <View style={styles.searchContainer}>
@@ -60,7 +61,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     companyLogoContainer: {
-        flex: 1,
+        flexDirection: 'row', // Distribuye los hijos en fila
+        justifyContent: 'space-between', // Distribuye el espacio equitativamente
         borderBottomColor: '#e3e4e7', // Color de la línea
         borderBottomWidth: 1, // Grosor de la línea
         paddingBottom: '1%', // Espacio debajo de la línea
@@ -74,7 +76,9 @@ const styles = StyleSheet.create({
         top: 0,
         width: 35,
         height: 35,
-        marginLeft: '13%'
+        position: 'absolute', // Posiciona absolutamente
+        left: '52.5%', // Mueve la imagen al centro
+        transform: [{ translateX: -25 }], // Centra la imagen exactamente (la mitad de su ancho)
     },
     logo: {
         width: 30,
@@ -97,12 +101,13 @@ const styles = StyleSheet.create({
         color: '#171717',
     },
     title: {
-        color: '#0B7BFF',
-        right: 5,
-        flexDirection: 'row',
-        fontSize: 18,
+        color: '#171717',
+        alignContent: 'center',
+        alignItems: 'center',
+        fontSize: 16,
+        color: '#171717',
         textAlign: 'right', // Alinea el texto a la derecha
-        fontWeight: 'bold', // Establecer negrilla
+        right: '15%'
     },
     description: {
         right: 3,
