@@ -47,6 +47,18 @@ export default function Puntodeentrada({navigation}: RouteProps) {
                     onPress={() => navigation.navigate('DoceCotizaciones')}
                 />
             </View>
+            <View style={styles.button}>
+                <Button
+                    title="Formulario cliente"
+                    onPress={() => navigation.navigate('FormularioCliente')}
+                />
+            </View>
+            <View style={styles.button}>
+                <Button
+                    title="Formulario profesional"
+                    onPress={() => navigation.navigate('FormularioProfesional')}
+                />
+            </View>
         </View>
     );
 };

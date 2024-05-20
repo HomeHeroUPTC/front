@@ -13,8 +13,20 @@ const FormularioCliente = () => {
             Alert.alert('Campos Incompletos', 'Por favor complete todos los campos.');
             return;
         }
+
+        // Crear el objeto con los datos del cliente
+        const nuevoCliente = {
+            nombre,
+            correo,
+            direccion,
+            ciudad: selectedCity
+        };
+
+        // Guardar el objeto en el estado o enviarlo al endpoint del microservicio para registrarlo
         // Aquí iría la lógica para registrar el cliente
-        console.log('Registrando cliente:', { nombre, correo, direccion, ciudad: selectedCity });
+        console.log('Registrando cliente:', nuevoCliente);
+
+        // Lógica adicional como enviar los datos al endpoint del microservicio
     };
 
     return (
@@ -45,7 +57,7 @@ const FormularioCliente = () => {
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={selectedCity}
-                            style={styles.picinputker}
+                            style={styles.picker}
                             onValueChange={(itemValue) => setSelectedCity(itemValue)}
                             accessibilityLabel="CiudadPicker"
                         >
