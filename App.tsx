@@ -19,6 +19,7 @@ import FeedHHClient from "./app/screens/ProfesionalesDelServicio";
 import ConfirmarVisita from "./app/screens/ConfirmarVisita";
 import PagarVisita from './app/screens/PagarVisita'
 import { RoleProvider } from "./src/components/utils/verificarcorreo";
+import VisitasProfesionales from "./app/screens/VistasProfesional";
 
 const Stack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
@@ -39,6 +40,7 @@ function InsideLayout() {
             <InsideStack.Screen name='ProfesionalesDelServicio' component={FeedHHClient}/>
             <InsideStack.Screen name='ConfirmarVisita' component={ConfirmarVisita}/>
             <InsideStack.Screen name='PagarVisita' component={PagarVisita}/>
+            <InsideStack.Screen name="VisitaProfesional" component={VisitasProfesionales}/>
         </InsideStack.Navigator>
     )
 }
