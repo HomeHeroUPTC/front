@@ -1,15 +1,18 @@
 import React from 'react';
-import {StyleSheet, View, Button} from 'react-native';
+import {StyleSheet, View, Button, Text} from 'react-native';
 import {NavigationProp} from '@react-navigation/native';
 import {FIREBASE_AUTH} from '../../firebaseConfig';
+import { useRole } from '../../src/components/utils/verificarcorreo';
 
 interface RouteProps {
     navigation: NavigationProp<any, any>;
 }
 
 export default function Puntodeentrada({navigation}: RouteProps) {
+    const {role} = useRole();
     return (
         <View style={styles.container}>
+            <Text>{role}</Text>
             <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout"/>
             <View	
                 style={styles.button}>	
@@ -46,14 +49,14 @@ export default function Puntodeentrada({navigation}: RouteProps) {
             </View>
             <View style={styles.button}>
                 <Button
-                    title="32.RegistrarServicios"
-                    onPress={() => navigation.navigate('RegistrarServicios')}
+                    title="Formulario cliente"
+                    onPress={() => navigation.navigate('FormularioCliente')}
                 />
             </View>
             <View style={styles.button}>
                 <Button
-                     title="24.Feed Profesionales Cliente"
-                     onPress={() => navigation.navigate('ProfesionalesDelServicio')}
+                    title="Formulario profesional"
+                    onPress={() => navigation.navigate('FormularioProfesional')}
                 />
             </View>
             <View style={styles.button}>

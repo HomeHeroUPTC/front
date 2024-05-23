@@ -6,8 +6,6 @@ import ServiciosHH from '../../src/components/ServiciosHome';
 import RoundButton from '../../src/components/ButonAdd';
 import Footer from '../../src/components/Footer';
 import HeaderProfile from '../../src/components/HeaderProfile';
-import { useServicios } from '../../src/components/utils/serviciosList';
-
 
 interface RouteProps {
     navigation: NavigationProp<any, any>;
