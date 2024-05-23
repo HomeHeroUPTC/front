@@ -14,7 +14,7 @@ const ProfileScreen = () => {
     const palabraClave = 'Servicio';
   
     // Construir la URL con la palabra clave como parámetro de consulta
-    const url = `https://84bf-186-168-233-248.ngrok-free.app/GetServicios`;
+    const url = `https://e18e-132-255-20-2.ngrok-free.app/GetServicios`;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
     },
     headerInfo:{
-      height: '11%',
+      height: '8%',
       backgroundColor: '#fff',
     },
     body:{

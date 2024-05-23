@@ -56,6 +56,12 @@ export default function Puntodeentrada({navigation}: RouteProps) {
                      onPress={() => navigation.navigate('ProfesionalesDelServicio')}
                 />
             </View>
+            <View style={styles.button}>
+                <Button
+                     title="25.Solicitar Visita"
+                     onPress={() => navigation.navigate('ConfirmarVisita')}
+                />
+            </View>
         </View>
     );
 };
