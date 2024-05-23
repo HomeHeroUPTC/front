@@ -16,6 +16,8 @@ import FormularioCliente from "./app/screens/FormularioCliente";
 import FormularioProfesional from "./app/screens/FormularioProfesional";
 import RegistrarServicios from "./app/screens/RegistrarServicios";
 import FeedHHClient from "./app/screens/ProfesionalesDelServicio";
+import ConfirmarVisita from "./app/screens/ConfirmarVisita";
+import PagarVisita from './app/screens/PagarVisita'
 import { RoleProvider } from "./src/components/utils/verificarcorreo";
 
 const Stack = createNativeStackNavigator();
@@ -35,6 +37,8 @@ function InsideLayout() {
             <InsideStack.Screen name='FormularioProfesional' component={FormularioProfesional}/>
             <InsideStack.Screen name='RegistrarServicios' component={RegistrarServicios}/>
             <InsideStack.Screen name='ProfesionalesDelServicio' component={FeedHHClient}/>
+            <InsideStack.Screen name='ConfirmarVisita' component={ConfirmarVisita}/>
+            <InsideStack.Screen name='PagarVisita' component={PagarVisita}/>
         </InsideStack.Navigator>
     )
 }

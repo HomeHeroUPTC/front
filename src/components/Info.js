@@ -9,15 +9,15 @@ const Info = ({ servicio }) => {
       <View style={styles.info}>
         <Image
             style={styles.image}
-            source={{ uri: servicio.imagenUrl }}
+            source={{ uri: servicio.image_url}}
         />
         <View style={styles.textContainer}>
           <View style={styles.texts}>
             <Text style={styles.title}>
-              {servicio.titulo}
+              {servicio.title}
             </Text>
             <Text style={styles.paragraph}>
-              {servicio.descripcion}
+              {servicio.description}
             </Text>
           </View>
         </View>
