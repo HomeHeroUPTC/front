@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../../src/components/utils/correo';
-
+import { useNavigation } from '@react-navigation/native';
 
 const FormularioCliente = () => {
     const [name, setname] = useState('');
@@ -11,6 +11,8 @@ const FormularioCliente = () => {
     const [selectedCity, setSelectedCity] = useState('');
     const {userEmail, setUserEmail} = useAuth();
     const [image_url, setImage_url] = useState('');
+    
+const navigation = useNavigation();
 
     
    
@@ -22,23 +24,48 @@ const FormularioCliente = () => {
             return;
         }
             const nuevoCliente = {
-                name,
                 email,
+                name,
                 address,
                 city: selectedCity,
                 image_url
             };
             console.log(nuevoCliente);
-        
-
-        // Crear el objeto con los datos del cliente
-        
-
-        // Guardar el objeto en el estado o enviarlo al endpoint del microservicio para registrarlo
-        // Aquí iría la lógica para registrar el cliente
+            // Realizar la solicitud POST
+            fetch('https://msusuarios-zaewler4iq-uc.a.run.app/User/CreateClient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(nuevoCliente),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al enviar los datos');
+                }
+                
+                // Verificar si la respuesta está vacía
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    // La respuesta no es JSON
+                    navigation.navigate('HomeCliente');
+                }
+            
+                // Analizar la respuesta como JSON
+                return response.json();
+            })
+            .then(data => {
+                console.log('Cliente registrado:', data);
+                
+                // Aquí podrías mostrar alguna confirmación al usuario si lo deseas
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
+            });
+            
+    
         console.log('Registrando cliente:', nuevoCliente);
-
-        // Lógica adicional como enviar los datos al endpoint del microservicio
     };
 
     return (
