@@ -1,23 +1,25 @@
-import {StyleSheet, View, ScrollView} from 'react-native';
-import {NavigationProp} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
 import PlantDescripcionBtn from "../../src/components/PlantDescripcionBtn";
-import React from "react";
 
 interface RouteProps {
     navigation: NavigationProp<any, any>;
 }
 
-export default function Visitas({navigation}: RouteProps) {
-    const plantDescriptions = [
-        {
-            nombreCliente: 'Catalina Torres',
-            imageUrl: "https://cerrajerosenbilbao.com/wp-content/uploads/2021/05/cerrajeros-profesionales-bilbao-24-horas-aperturas.jpg",
-            valor: '50000',
-            direccion: 'direccion',
-            fechaHora: '22-05-2024  13:00',
-            tituloServicioProfesional: 'Cerrajero'
-        }
-    ];
+export default function Visitas({ navigation }: RouteProps) {
+    const [plantDescriptions, setPlantDescriptions] = useState([]);
+
+    useEffect(() => {
+        // Aquí realizas la solicitud HTTP al endpoint
+        fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=0')
+            .then(response => response.json())
+            .then(data => {
+                // Una vez que se recibe la respuesta, actualiza el estado con los datos recibidos
+                setPlantDescriptions(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []); // Este efecto se ejecuta solo una vez al montar el componente
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -25,21 +27,45 @@ export default function Visitas({navigation}: RouteProps) {
                 {plantDescriptions.map((plant, index) => (
                     <PlantDescripcionBtn
                         key={index}
-                        nombreCliente={plant.nombreCliente}
-                        imageUrl={plant.imageUrl}
-                        fechaHora={plant.fechaHora}
-                        valor={plant.valor}
-                        tituloServicioProfesional={plant.tituloServicioProfesional}
+                        clientName={plant.clientName}
+                        clientId={plant.clientId}
+                        initTime={plant.initTime}
+                        visitDate={plant.visitDate}
+                        visitId={plant.visitId}
+                        heroId={plant.heroId}
+                        nombreServiceProfesional={plant.nombreServiceProfesional}
+                        address={plant.address}
+                        estado={plant.estado}
+                        onPress={() => navigation.navigate('DetallesVisita', {
+                            address: plant.address,
+                            visitId: plant.visitId,
+                            heroId: plant.heroId,
+                            clientId: plant.clientId,
+                            clientName: plant.clientName,
+                            visitDate: plant.visitDate,
+                            initTime: plant.initTime,
+                            nombreServiceProfesional: plant.nombreServiceProfesional,
+                            estado: plant.estado
+                        })}
                     />
                 ))}
             </View>
         </ScrollView>
     );
-};
+}
 
 const styles = StyleSheet.create({
     scrollContainer: {
         flexGrow: 1,
         padding: 20
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    text: {
+        fontSize: 18,
+        marginBottom: 10,
     }
 });

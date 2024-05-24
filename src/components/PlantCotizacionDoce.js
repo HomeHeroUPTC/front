@@ -1,33 +1,63 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-const PlantDescripcionDoce = ({imageUrl, nombreProfesional, valorCotizacion, fechaHora, tituloServicioProfesional}) => {
+const PlantDescripcionDoce = ({clientAddress  ,clientNeighborhood ,clientName, heroName, price, details  ,serviceType, cotizacionTime ,cotizacionDate , idCotizacion,heroService}) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
                 <View style={styles.text1}>
                     <Text style={styles.title}>
-                        {tituloServicioProfesional}
+                        {heroService}
                     </Text>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: imageUrl}}
-                        />
-                    </View>
                     <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Fecha y hora: "}</Text>
-                        <Text style={styles.text1}>{fechaHora}
+                        <Text style={styles.text}>{"Id cotizacion : "}</Text>
+                        <Text style={styles.text1}>{idCotizacion }
                         </Text>
                     </View>
                     <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Valor: "}</Text>
-                        <Text style={styles.text1}>{valorCotizacion}
+                        <Text style={styles.text}>{"Service Type : "}</Text>
+                        <Text style={styles.text1}>{serviceType }
                         </Text>
                     </View>
                     <View style={styles.containerlabel}>
-                            <Text style={styles.text}>{"Profesional: "}</Text>
-                            <Text style={styles.text1}>{nombreProfesional}</Text>
+                        <Text style={styles.text}>{"Fecha : "}</Text>
+                        <Text style={styles.text1}>{cotizacionDate }
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"Hora : "}</Text>
+                        <Text style={styles.text1}>{cotizacionTime }
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"hero Name : "}</Text>
+                        <Text style={styles.text1}>{heroName }
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"client name: "}</Text>
+                        <Text style={styles.text1}>{clientName}
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"client Neighborhood: "}</Text>
+                        <Text style={styles.text1}>{clientNeighborhood}
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"client Address: "}</Text>
+                        <Text style={styles.text1}>{clientAddress}
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"Price : "}</Text>
+                        <Text style={styles.text1}>{price}
+                        </Text>
+                    </View>
+                    <View style={styles.containerlabel}>
+                        <Text style={styles.text}>{"details : "}</Text>
+                        <Text style={styles.text1}>{details}
+                        </Text>
                     </View>
                     <TouchableOpacity style={[styles.button]} onPress={() => console.log(accionbtn1)}>
                         <Text style={styles.buttonText}>{'Re-Agendar'}</Text>
@@ -49,13 +79,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text: {
-        marginTop: 20,
+        marginTop: 0,
         fontSize: 14,
         alignSelf: 'center',
         textAlign: "justify",
         fontWeight: 'bold',
     },text1: {
-        marginTop: 20,
+        marginTop: 0,
         fontSize: 14,
         alignSelf: 'center',
         textAlign: "justify",
