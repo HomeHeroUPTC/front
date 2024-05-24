@@ -13,12 +13,10 @@ interface RouteProps {
 const getRoleFromEmail = (email) => {
     const domain = email.split('@')[1];
     if (domain === 'gmail.com') {
-        console.log(email, 'verify hhses')
         return 'homehero';
     } else if (domain === 'hotmail.com') {
         return 'cliente';
     } else {
-        console.log(email, 'verify cl')
         return 'cliente';
     }
 };
@@ -39,17 +37,14 @@ const Login = ({navigation}: RouteProps) => {
         }
     };
     const signIn = async () => {
-        console.log(email)
         setUserEmail(email)
         setLoading(true);
         setRoleFromEmail(email)
         try {
-            console.log(role)
             const response = await signInWithEmailAndPassword(auth, email, password);
             //console.log(response);
             navigateToScreen();
         }catch (error) {
-            console.log(error);
             alert('fallo al iniciar sesion' + error.message)
         }finally{
             setLoading(false);
@@ -60,10 +55,9 @@ const Login = ({navigation}: RouteProps) => {
         setLoading(true);
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(response);
             alert('Revise su correo (? *to do*')
+            //navigation.navigate();
         }catch (error) {
-            console.log(error);
             alert('fallo en el registro' + error.message)
         }finally{
             setLoading(false);  
