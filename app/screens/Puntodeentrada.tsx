@@ -17,7 +17,6 @@ export default function Puntodeentrada({navigation}: RouteProps) {
             <View	
                 style={styles.button}>	
             </View>
-
             <View style={styles.button}>
                 <Button
                     title="visitas profesional"
