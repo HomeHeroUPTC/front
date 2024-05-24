@@ -26,7 +26,7 @@ const Login = ({navigation}: RouteProps) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(Boolean);
     const auth = FIREBASE_AUTH
-    const {setUserEmail} = useAuth();
+    const {userEmail, setUserEmail} = useAuth();
     const {role,setRoleFromEmail} = useRole();
     const navigateToScreen = () => {
         const role =getRoleFromEmail(email)
@@ -37,9 +37,10 @@ const Login = ({navigation}: RouteProps) => {
         }
     };
 
-    const slecetRegister=() =>{
-        navigation.navigate('SeleccionPerfil')
-    } 
+    const selectRegister = () => {
+        navigation.navigate('SeleccionPerfil');
+    }
+    
     const signIn = async () => {
         setUserEmail(email)
         setLoading(true);
@@ -58,15 +59,18 @@ const Login = ({navigation}: RouteProps) => {
     const signUp = async () => {
         setLoading(true);
         try {
+            console.log(email);
+            
+            setUserEmail(email);
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            alert('Revise su correo (? *to do*')
-            slecetRegister();
-        }catch (error) {
-            alert('fallo en el registro' + error.message)
-        }finally{
-            setLoading(false);  
+            alert('Revise su correo');
+            selectRegister();
+        } catch (error) {
+            alert('Fallo en el registro: ' + error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <View style={styles.container}>

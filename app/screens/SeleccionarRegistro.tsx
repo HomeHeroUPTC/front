@@ -5,7 +5,7 @@ interface RouteProps {
     navigation: NavigationProp<any, any>;
 }
 
-const selectProfile = ({navigation}:RouteProps) => {
+const SelectProfile = ({navigation}:RouteProps) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Seleccione el tipo de rol que desea</Text>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default selectProfile;
+export default SelectProfile;

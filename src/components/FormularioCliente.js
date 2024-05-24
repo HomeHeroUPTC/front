@@ -1,26 +1,38 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useAuth } from '../../src/components/utils/correo';
+
 
 const FormularioCliente = () => {
-    const [nombre, setNombre] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [direccion, setDireccion] = useState('');
+    const [name, setname] = useState('');
+    const [email, setemail] = useState('');
+    const [address, setaddress] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
+    const {userEmail, setUserEmail} = useAuth();
+    const [image_url, setImage_url] = useState('');
 
+    
+   
     const handleRegistrarCliente = () => {
-        if (!nombre || !correo || !direccion || !selectedCity) {
+        setemail(userEmail)
+        setImage_url('https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/clinte.png?alt=media&token=2816ec9a-b728-4362-ab16-6689d196f734');
+        if (!name === ""  || !address || !selectedCity) {
             Alert.alert('Campos Incompletos', 'Por favor complete todos los campos.');
             return;
         }
+            const nuevoCliente = {
+                name,
+                email,
+                address,
+                city: selectedCity,
+                image_url
+            };
+            console.log(nuevoCliente);
+        
 
         // Crear el objeto con los datos del cliente
-        const nuevoCliente = {
-            nombre,
-            correo,
-            direccion,
-            ciudad: selectedCity
-        };
+        
 
         // Guardar el objeto en el estado o enviarlo al endpoint del microservicio para registrarlo
         // Aquí iría la lógica para registrar el cliente
@@ -35,33 +47,33 @@ const FormularioCliente = () => {
                 <View style={styles.text}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ingrese su nombre"
-                        value={nombre}
-                        onChangeText={setNombre}
-                        accessibilityLabel="NombreInput"
+                        placeholder="Ingrese su name"
+                        value={name}
+                        onChangeText={setname}
+                        accessibilityLabel="nameInput"
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Ingrese su correo"
-                        value={correo}
-                        onChangeText={setCorreo}
-                        accessibilityLabel="CorreoInput"
+                        placeholder={userEmail}
+                        value={email}
+                        onChangeText={setemail}
+                        editable={false}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Ingrese su dirección"
-                        value={direccion}
-                        onChangeText={setDireccion}
-                        accessibilityLabel="DireccionInput"
+                        value={address}
+                        onChangeText={setaddress}
+                        accessibilityLabel="addressInput"
                     />
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={selectedCity}
                             style={styles.picker}
                             onValueChange={(itemValue) => setSelectedCity(itemValue)}
-                            accessibilityLabel="CiudadPicker"
+                            accessibilityLabel="cityPicker"
                         >
-                            <Picker.Item label="Seleccione su ciudad" value="" />
+                            <Picker.Item label="Seleccione su city" value="" />
                             <Picker.Item label="Tunja" value="tunja" />
                             <Picker.Item label="Bogotá" value="bogota" />
                             <Picker.Item label="Medellín" value="medellin" />
