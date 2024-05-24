@@ -36,6 +36,10 @@ const Login = ({navigation}: RouteProps) => {
             navigation.navigate('HomeHH');
         }
     };
+
+    const slecetRegister=() =>{
+        navigation.navigate('SeleccionPerfil')
+    } 
     const signIn = async () => {
         setUserEmail(email)
         setLoading(true);
@@ -56,7 +60,7 @@ const Login = ({navigation}: RouteProps) => {
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password);
             alert('Revise su correo (? *to do*')
-            //navigation.navigate();
+            slecetRegister();
         }catch (error) {
             alert('fallo en el registro' + error.message)
         }finally{

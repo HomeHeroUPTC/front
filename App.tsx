@@ -21,6 +21,7 @@ import PagarVisita from './app/screens/PagarVisita'
 import { RoleProvider } from "./src/components/utils/verificarcorreo";
 import VisitasProfesionales from "./app/screens/VistasProfesional";
 import CrearCotizaciones from "./app/screens/CrearCotizaciones";
+import selectProfile from "./app/screens/SeleccionarRegistro";
 
 const Stack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
@@ -43,6 +44,7 @@ function InsideLayout() {
             <InsideStack.Screen name='PagarVisita' component={PagarVisita}/>
             <InsideStack.Screen name="VisitaProfesional" component={VisitasProfesionales}/>
             <InsideStack.Screen name="CrearCotizaciones" component={CrearCotizaciones}/>
+            <InsideStack.Screen name="SeleccionPerfil" component={selectProfile}/>
         </InsideStack.Navigator>
     )
 }

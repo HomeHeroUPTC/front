@@ -1,19 +1,23 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
+interface RouteProps {
+    navigation: NavigationProp<any, any>;
+}
 
-const selectProfile = () => {
+const selectProfile = ({navigation}:RouteProps) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Seleccione el tipo de rol que desea</Text>
             <View style={styles.buttonContainer}>
                 <Button
                     title="Heroe del Hogar (HH)"
-                    onPress={() => console.log('Heroe del Hogar seleccionado')}
+                    onPress={() => navigation.navigate('FormularioProfesional')}
                     color="#6200EE"
                 />
                 <Button
                     title="Cliente"
-                    onPress={() => console.log('Cliente seleccionado')}
+                    onPress={() => navigation.navigate('FormularioCliente')}
                     color="#6200EE"
                 />
             </View>
