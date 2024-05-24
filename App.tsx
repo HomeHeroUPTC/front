@@ -7,6 +7,7 @@ import { User, onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from "./firebaseConfig";
 import Cotizaciones from "./app/screens/Cotizaciones";
 import Visitas from "./app/screens/Visitas";
+import DetallesVisita from "./app/screens/DetallesVisitas";
 import HomeCliente from "./app/screens/HomeClient";
 import HomeHH from "./app/screens/HomeHH";
 import { AuthProvider } from "./src/components/utils/correo";
@@ -32,6 +33,7 @@ function InsideLayout() {
             <InsideStack.Screen name='Home Hero' component={puntodeentrada} />
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones} />
             <InsideStack.Screen name='Visitas' component={Visitas} />
+            <InsideStack.Screen name='DetallesVisita' component={DetallesVisita} />
             <InsideStack.Screen name='HomeHH' component={HomeHH} />
             <InsideStack.Screen name='DoceCotizaciones' component={DoceCotizaciones}/>
             <InsideStack.Screen name='HomeCliente' component={HomeCliente}/>

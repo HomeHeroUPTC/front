@@ -1,44 +1,54 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-const PlantDescripcionBtn = ({imageUrl, tituloServicioProfesional, fechaHora, valor, nombreCliente}) => {
+const PlantDescripcionBtn = ({ visitId, heroId, clientName, clientId, address,visitDate, initTime, nombreServiceProfesional, estado, onPress }) => {
+
+    // Función para obtener el texto y el estilo del estado
+    const getEstadoInfo = (estado) => {
+        switch (estado) {
+            case 1:
+                return { text: 'Pendiente', color: styles.estadoPendiente };
+            case 2:
+                return { text: 'Realizada', color: styles.estadoRealizada };
+            case 3:
+                return { text: 'Cancelada', color: styles.estadoCancelada };
+            default:
+                return { text: 'Desconocido', color: styles.estadoDesconocido };
+        }
+    };
+
+    const { text, color } = getEstadoInfo(estado);
+
     return (
-        <View style={styles.container}>
-            <View style={styles.contentContainer}>
-                <View style={styles.text}>
-                    <Text style={styles.title}>
-                        {tituloServicioProfesional}
-                    </Text>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: imageUrl}}
-                        />
-                    </View>
-                    <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Fecha: "}</Text>
-                        <Text style={styles.text1}>{fechaHora}
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.container}>
+                <View style={styles.contentContainer}>
+                    <View style={styles.text}>
+                        <Text style={styles.title}>
+                            {'                    Visita                   '}
                         </Text>
+                        <View style={styles.containerlabel}>
+                            <Text style={styles.text}>{"Cliente: "}</Text>
+                            <Text style={styles.text1}>{clientName}</Text>
+                        </View>
+                        <View style={styles.containerlabel}>
+                            <Text style={styles.text}>{"Fecha: "}</Text>
+                            <Text style={styles.text1}>{visitDate}</Text>
+                            <Text style={styles.text}>{"   Hora: "}</Text>
+                            <Text style={styles.text1}>{initTime}</Text>
+                        </View>
+                        <View style={styles.containerlabel}>
+                            <Text style={styles.text}>{"Servicio: "}</Text>
+                            <Text style={styles.text1}>{nombreServiceProfesional}</Text>
+                        </View>
+                        <View style={styles.containerlabel}>
+                            <Text style={styles.text}>{"Estado: "}</Text>
+                            <Text style={[styles.text1, color]}>{text}</Text>
+                        </View>
                     </View>
-                    <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Valor: "}</Text>
-                        <Text style={styles.text1}>{valor}
-                        </Text>
-                    </View>
-                    <View style={styles.containerlabel}>
-                        <Text style={styles.text}>{"Cliente: "}</Text>
-                        <Text style={styles.text1}>{nombreCliente}
-                        </Text>
-                    </View>
-                    <TouchableOpacity style={[styles.button]} onPress={() => console.log(accionbtn1)}>
-                        <Text style={styles.buttonText}>{'Ver mas'}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button2} onPress={() => console.log(accionbtn2)}>
-                        <Text style={styles.buttonText}>Cancelar</Text>
-                    </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -50,13 +60,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text: {
-        marginTop: 20,
-        fontSize: 14,
+        marginTop: 0,
+        fontSize: 18,
         alignSelf: 'center',
         textAlign: "justify",
         fontWeight: 'bold',
     },
     textContainer: {
+        fontSize: 18,
         textAlign: 'center',
         alignItems: 'center',
         alignSelf: 'center',
@@ -76,6 +87,7 @@ const styles = StyleSheet.create({
     },
     description: {
         marginTop: 20,
+        fontSize: 18,
         alignSelf: 'center',
         textAlign: 'justify',
         paddingHorizontal: 40,
@@ -97,7 +109,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 5,
         opacity: 10,
-    }, button2: {
+    },
+    button2: {
         backgroundColor: '#BD0000',
         padding: 13,
         borderRadius: 2,
@@ -106,7 +119,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     containerlabel: {
@@ -116,10 +129,23 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     text1: {
-        marginTop: 20,
-        fontSize: 14,
+        marginTop: 0,
+        fontSize: 18,
         alignSelf: 'center',
         textAlign: "justify",
+    },
+    // Estilos para los estados
+    estadoPendiente: {
+        color: 'blue',
+    },
+    estadoRealizada: {
+        color: 'green',
+    },
+    estadoCancelada: {
+        color: 'red',
+    },
+    estadoDesconocido: {
+        color: 'gray',
     }
 });
 
