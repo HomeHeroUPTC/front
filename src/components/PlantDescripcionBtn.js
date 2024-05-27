@@ -1,48 +1,62 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
-const PlantDescripcionBtn = ({ visitId, heroId, clientName, clientId, address,visitDate, initTime, nombreServiceProfesional, estado, onPress }) => {
+const PlantDescripcionBtn = ({ image_url, visitId, heroId, clientName, clientId, address, visitDate, initTime, nombreServiceProfesional, estado, onPress }) => {
 
     // Función para obtener el texto y el estilo del estado
     const getEstadoInfo = (estado) => {
         switch (estado) {
             case 1:
-                return { text: 'Pendiente', color: styles.estadoPendiente };
+                return { text: 'Pendiente', color: styles.estado, backgroundColor: '#ADD8E6' };
             case 2:
-                return { text: 'Realizada', color: styles.estadoRealizada };
+                return { text: 'Realizada', color: styles.estado, backgroundColor: '#90EE90' };
             case 3:
-                return { text: 'Cancelada', color: styles.estadoCancelada };
+                return { text: 'Cancelada', color: styles.estado, backgroundColor: '#FF6347' };
             default:
-                return { text: 'Desconocido', color: styles.estadoDesconocido };
+                return { text: 'Desconocido', color: styles.estado, backgroundColor: '#D3D3D3' };
         }
     };
 
-    const { text, color } = getEstadoInfo(estado);
+    const { text, color, backgroundColor } = getEstadoInfo(estado);
+
+    function formato24Horas(hora) {
+        if (hora < 1 || hora > 24) {
+            return "Hora inválida";
+        } else if (hora < 12) {
+            return hora + " AM";
+        } else if (hora === 12) {
+            return "12 M";
+        } else {
+            return hora - 12 + " PM";
+        }
+    }
 
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={styles.container}>
-                <View style={styles.contentContainer}>
-                    <View style={styles.text}>
-                        <Text style={styles.title}>
-                            {'                    Visita                   '}
-                        </Text>
-                        <View style={styles.containerlabel}>
-                            <Text style={styles.text}>{"Cliente: "}</Text>
-                            <Text style={styles.text1}>{clientName}</Text>
+                <View style={styles.info}>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: image_url}}
+                    />
+                    <View style={styles.textContainer}>
+                        <View style={styles.texts}>
+                            <Text style={styles.title}>
+                                {"UserName"}
+                            </Text>
+                            <View style={styles.infoVisit}>
+                                <Text style={styles.paragraph}>
+                                    {visitDate}
+                                </Text>
+                                <Text style={styles.paragraph}>
+                                    {formato24Horas(19)}
+                                </Text>
+                                <Text style={styles.paragraph}>
+                                    {"Servicio de " + "Pintura"}
+                                </Text>
+                            </View>
                         </View>
-                        <View style={styles.containerlabel}>
-                            <Text style={styles.text}>{"Fecha: "}</Text>
-                            <Text style={styles.text1}>{visitDate}</Text>
-                            <Text style={styles.text}>{"   Hora: "}</Text>
-                            <Text style={styles.text1}>{initTime}</Text>
-                        </View>
-                        <View style={styles.containerlabel}>
-                            <Text style={styles.text}>{"Servicio: "}</Text>
-                            <Text style={styles.text1}>{nombreServiceProfesional}</Text>
-                        </View>
-                        <View style={styles.containerlabel}>
-                            <Text style={styles.text}>{"Estado: "}</Text>
+                        <View style={[styles.statusContainer, { backgroundColor }]}>
                             <Text style={[styles.text1, color]}>{text}</Text>
                         </View>
                     </View>
@@ -53,74 +67,50 @@ const PlantDescripcionBtn = ({ visitId, heroId, clientName, clientId, address,vi
 };
 
 const styles = StyleSheet.create({
-    title: {
-        marginTop: 0,
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
+    container: {
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 10,
+        backgroundColor: 'black'
     },
-    text: {
-        marginTop: 0,
-        fontSize: 18,
-        alignSelf: 'center',
-        textAlign: "justify",
-        fontWeight: 'bold',
-    },
-    textContainer: {
-        fontSize: 18,
-        textAlign: 'center',
+    info: {
+        flexDirection: 'row',
         alignItems: 'center',
-        alignSelf: 'center',
-        width: '100%',
-    },
-    imageContainer: {
-        marginTop: 15,
-        alignSelf: 'center',
-        width: 280,
-        height: 200,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#fff',
+        borderRadius: 10, // Borde redondeado para el contenedor de información
+        borderWidth: 0.3,
+        borderColor: '#e3e4e7',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        padding: 10,
     },
     image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
+        width: 100,
+        height: 100, // Altura y ancho iguales para que sea cuadrada
+        borderRadius: 10, // Borde redondeado para la imagen
     },
-    description: {
-        marginTop: 20,
-        fontSize: 18,
-        alignSelf: 'center',
-        textAlign: 'justify',
-        paddingHorizontal: 40,
+    paragraph: {
+        fontSize: 16,
+        color: '#171717',
     },
-    container: {
-        padding: 20,
-        alignItems: 'center',
+    textContainer: {
+        flex: 1,
+        marginLeft: 10,
     },
-    contentContainer: {
-        borderWidth: 0,
-        borderColor: '#666',
-        borderRadius: 7,
+    texts: {
         backgroundColor: '#fff',
     },
-    button: {
-        backgroundColor: '#0B7BFF',
-        padding: 13,
-        borderRadius: 2,
-        alignItems: 'center',
-        marginTop: 5,
-        opacity: 10,
-    },
-    button2: {
-        backgroundColor: '#BD0000',
-        padding: 13,
-        borderRadius: 2,
-        alignItems: 'center',
-        marginTop: 5,
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 20,
+    title: {
+        fontSize: 18,
         fontWeight: 'bold',
+        color: '#171717',
+        marginBottom: 5,
+    },
+    infoVisit:{
+        bottom:5
     },
     containerlabel: {
         flexDirection: 'row',
@@ -133,19 +123,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         alignSelf: 'center',
         textAlign: "justify",
+        color: '#171717',
     },
     // Estilos para los estados
-    estadoPendiente: {
-        color: 'blue',
+    estado: {
+        color: '#171717',
     },
-    estadoRealizada: {
-        color: 'green',
-    },
-    estadoCancelada: {
-        color: 'red',
-    },
-    estadoDesconocido: {
-        color: 'gray',
+    statusContainer: {
+        alignItems: 'center',
+        borderRadius: 20, // Borde redondeado para el contenedor de estado
+        padding: 5,
+        marginTop: 5,
     }
 });
 

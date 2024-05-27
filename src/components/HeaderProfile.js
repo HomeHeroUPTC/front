@@ -11,6 +11,9 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
         // Example: Fetch data from API based on keyword
     };
 
+    const firstName = username.split(' ')[0];
+
+
     return(
         <View style={styles.container}>
             <View style={styles.companyLogoContainer}>
@@ -19,7 +22,7 @@ const HeaderProfile = ({ userImage, username, description, companyName }) => {
                         style={styles.logo}
                         source={{uri:userImage}}
                     />
-                    <Text style={styles.username}>{username}</Text>
+                    <Text style={styles.username}>{firstName}</Text>
                 </View>
                 <Image
                     style={styles.companyLogo}

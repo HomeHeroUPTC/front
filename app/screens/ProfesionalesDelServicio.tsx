@@ -70,7 +70,7 @@ const FeedHHClient = ({ route }) => {
         <ScrollView style={styles.scrollContainer} stickyHeaderIndices={[0]}>
           <View style={styles.header}>
             <HeaderProfile 
-              companyName='Home Hero' 
+              companyName={'Home Hero'}
               userImage={cliente.url_img}
               username={cliente.name}
               description={"Profesionales"}
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerInfo:{
-    height: '8%',
+    height: 50,
     backgroundColor: '#fff',
   },
   body:{

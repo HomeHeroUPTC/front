@@ -1,7 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./app/screens/Login";
-import puntodeentrada from "./app/screens/Puntodeentrada";
 import React, { useEffect, useState } from 'react'
 import { User, onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from "./firebaseConfig";
@@ -23,6 +22,8 @@ import { RoleProvider } from "./src/components/utils/verificarcorreo";
 import VisitasProfesionales from "./app/screens/VistasProfesional";
 import CrearCotizaciones from "./app/screens/CrearCotizaciones";
 import SelectProfile from "./app/screens/SeleccionarRegistro";
+import { HeroProvider } from "./src/components/utils/Hero";
+
 
 const Stack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
@@ -65,15 +66,17 @@ export default function App() {
         <AuthProvider>
             <RoleProvider>
             <ServiciosProvider>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Login">
-                    {user ? (
-                        <Stack.Screen name="Inside" component={InsideLayout} options={{ headerShown: false }} />
-                    ) : (
-                        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                    )}
-                </Stack.Navigator>
-            </NavigationContainer>
+                <HeroProvider> 
+                    <NavigationContainer>
+                        <Stack.Navigator initialRouteName="Login">
+                            {user ? (
+                                <Stack.Screen name="Inside" component={InsideLayout} options={{ headerShown: false }} />
+                            ) : (
+                                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                            )}
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </HeroProvider>
             </ServiciosProvider>
             </RoleProvider>
         </AuthProvider>
