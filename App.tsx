@@ -22,6 +22,7 @@ import PagarVisita from './app/screens/PagarVisita'
 import { RoleProvider } from "./src/components/utils/verificarcorreo";
 import VisitasProfesionales from "./app/screens/VistasProfesional";
 import CrearCotizaciones from "./app/screens/CrearCotizaciones";
+import SelectProfile from "./app/screens/SeleccionarRegistro";
 
 const Stack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
@@ -30,7 +31,6 @@ function InsideLayout() {
     return (
         <InsideStack.Navigator>
             <InsideStack.Screen name='Login' component={Login}/>
-            <InsideStack.Screen name='Home Hero' component={puntodeentrada} />
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones} />
             <InsideStack.Screen name='Visitas' component={Visitas} />
             <InsideStack.Screen name='DetallesVisita' component={DetallesVisita} />
@@ -45,6 +45,7 @@ function InsideLayout() {
             <InsideStack.Screen name='PagarVisita' component={PagarVisita}/>
             <InsideStack.Screen name="VisitaProfesional" component={VisitasProfesionales}/>
             <InsideStack.Screen name="CrearCotizaciones" component={CrearCotizaciones}/>
+            <InsideStack.Screen name="SeleccionPerfil" component={SelectProfile}/>
         </InsideStack.Navigator>
     )
 }

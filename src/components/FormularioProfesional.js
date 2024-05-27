@@ -1,17 +1,26 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../src/components/utils/correo';
+
+
 
 const FormularioProfesional = () => {
     const [nombre, setNombre] = useState('');
     const [id, setId] = useState('');
     const [correo, setCorreo] = useState('');
     const [direccion, setDireccion] = useState('');
+    const [city, setcity] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedProfesion, setSelectedProfesion] = useState('');
+    const navigation = useNavigation();
+    const {userEmail, setUserEmail} = useAuth();
 
     const handleRegistrarProfesional = () => {
-        if (!nombre || !correo || !direccion || !selectedCity || !selectedProfesion || !id) {
+
+
+        if (!nombre || !direccion || !selectedCity || !selectedProfesion || !id) {
             Alert.alert('Campos Incompletos', 'Por favor complete todos los campos.');
             return;
         }
@@ -19,13 +28,46 @@ const FormularioProfesional = () => {
 
         // Crear el objeto con los datos del profesional
         const nuevoProfesional = {
-            nombre,
-            id,
-            correo,
-            direccion,
-            ciudad: selectedCity,
-            profesion: selectedProfesion
+            name: nombre,
+            email: userEmail,
+            identification:id,
+            job:selectedProfesion,
+            city: selectedCity,
+            image_url: "https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/lego-logo-512.png?alt=media&token=b78d7c8d-0029-46f4-bcd4-bf0c328c1de7",
+            address:direccion,
         };
+        fetch('https://msusuarios-zaewler4iq-uc.a.run.app/User/CreateHero', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(nuevoProfesional),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response)
+                    throw new Error('Error al enviar los datos');
+                }
+                
+                // Verificar si la respuesta está vacía
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    // La respuesta no es JSON
+                    navigation.navigate('HomeHH');
+                }
+            
+                // Analizar la respuesta como JSON
+                return response.json();
+            })
+            .then(data => {
+                console.log('Cliente registrado:', data);
+                
+                // Aquí podrías mostrar alguna confirmación al usuario si lo deseas
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
+            });
 
         // Guardar el objeto en el estado o enviarlo al endpoint del microservicio para registrarlo
         // Aquí iría la lógica para registrar el profesional
@@ -45,10 +87,11 @@ const FormularioProfesional = () => {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Ingrese su correo"
+                        placeholder={userEmail}
                         value={correo}
                         onChangeText={setCorreo}
                         accessibilityLabel="CorreoInput"
+                        editable={false}
                     />
                     <TextInput
                         style={styles.input}

@@ -12,7 +12,7 @@ export default function Visitas({ navigation }: RouteProps) {
 
     useEffect(() => {
         // Aquí realizas la solicitud HTTP al endpoint
-        fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=0')
+        fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=2')
             .then(response => response.json())
             .then(data => {
                 // Una vez que se recibe la respuesta, actualiza el estado con los datos recibidos
@@ -35,7 +35,7 @@ export default function Visitas({ navigation }: RouteProps) {
                         heroId={plant.heroId}
                         nombreServiceProfesional={plant.nombreServiceProfesional}
                         address={plant.address}
-                        estado={plant.estado}
+                        estado={plant.visit_status}
                         onPress={() => navigation.navigate('DetallesVisita', {
                             address: plant.address,
                             visitId: plant.visitId,

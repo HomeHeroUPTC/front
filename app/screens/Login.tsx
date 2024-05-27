@@ -13,13 +13,13 @@ interface RouteProps {
 const getRoleFromEmail = (email) => {
     const domain = email.split('@')[1];
     if (domain === 'gmail.com') {
-        console.log(email, 'verify hhses')
+        return 'homehero';
+    } else if (domain === 'hotmail.com') {
         return 'cliente';
     } else if (domain === 'hotmail.com') {
         return 'homehero';
     } else {
-        console.log(email, 'verify cl')
-        return 'homehero';
+        return 'cliente';
     }
 };
 
@@ -28,7 +28,7 @@ const Login = ({navigation}: RouteProps) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(Boolean);
     const auth = FIREBASE_AUTH
-    const {setUserEmail} = useAuth();
+    const {userEmail, setUserEmail} = useAuth();
     const {role,setRoleFromEmail} = useRole();
     const navigateToScreen = () => {
         const role =getRoleFromEmail(email)
@@ -38,18 +38,20 @@ const Login = ({navigation}: RouteProps) => {
             navigation.navigate('HomeHH');
         }
     };
+
+    const selectRegister = () => {
+        navigation.navigate('SeleccionPerfil');
+    }
+    
     const signIn = async () => {
-        console.log(email)
         setUserEmail(email)
         setLoading(true);
         setRoleFromEmail(email)
         try {
-            console.log(role)
             const response = await signInWithEmailAndPassword(auth, email, password);
             //console.log(response);
             navigateToScreen();
         }catch (error) {
-            console.log(error);
             alert('fallo al iniciar sesion' + error.message)
         }finally{
             setLoading(false);
@@ -59,16 +61,18 @@ const Login = ({navigation}: RouteProps) => {
     const signUp = async () => {
         setLoading(true);
         try {
+            console.log(email);
+            
+            setUserEmail(email);
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(response);
-            alert('Revise su correo (? *to do*')
-        }catch (error) {
-            console.log(error);
-            alert('fallo en el registro' + error.message)
-        }finally{
-            setLoading(false);  
+            alert('Revise su correo');
+            selectRegister();
+        } catch (error) {
+            alert('Fallo en el registro: ' + error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <View style={styles.container}>
