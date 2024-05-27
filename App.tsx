@@ -7,6 +7,7 @@ import { User, onAuthStateChanged } from 'firebase/auth'
 import { FIREBASE_AUTH } from "./firebaseConfig";
 import Cotizaciones from "./app/screens/Cotizaciones";
 import Visitas from "./app/screens/Visitas";
+import DetallesVisita from "./app/screens/DetallesVisitas";
 import HomeCliente from "./app/screens/HomeClient";
 import HomeHH from "./app/screens/HomeHH";
 import { AuthProvider } from "./src/components/utils/correo";
@@ -19,6 +20,8 @@ import FeedHHClient from "./app/screens/ProfesionalesDelServicio";
 import ConfirmarVisita from "./app/screens/ConfirmarVisita";
 import PagarVisita from './app/screens/PagarVisita'
 import { RoleProvider } from "./src/components/utils/verificarcorreo";
+import VisitasProfesionales from "./app/screens/VistasProfesional";
+import CrearCotizaciones from "./app/screens/CrearCotizaciones";
 
 const Stack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
@@ -30,6 +33,7 @@ function InsideLayout() {
             <InsideStack.Screen name='Home Hero' component={puntodeentrada} />
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones} />
             <InsideStack.Screen name='Visitas' component={Visitas} />
+            <InsideStack.Screen name='DetallesVisita' component={DetallesVisita} />
             <InsideStack.Screen name='HomeHH' component={HomeHH} />
             <InsideStack.Screen name='DoceCotizaciones' component={DoceCotizaciones}/>
             <InsideStack.Screen name='HomeCliente' component={HomeCliente}/>
@@ -39,6 +43,8 @@ function InsideLayout() {
             <InsideStack.Screen name='ProfesionalesDelServicio' component={FeedHHClient}/>
             <InsideStack.Screen name='ConfirmarVisita' component={ConfirmarVisita}/>
             <InsideStack.Screen name='PagarVisita' component={PagarVisita}/>
+            <InsideStack.Screen name="VisitaProfesional" component={VisitasProfesionales}/>
+            <InsideStack.Screen name="CrearCotizaciones" component={CrearCotizaciones}/>
         </InsideStack.Navigator>
     )
 }

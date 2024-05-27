@@ -19,6 +19,18 @@ export default function Puntodeentrada({navigation}: RouteProps) {
             </View>
             <View style={styles.button}>
                 <Button
+                    title="crear  cotizacion"
+                    onPress={() => navigation.navigate('CrearCotizaciones')}
+                />
+            </View>
+            <View style={styles.button}>
+                <Button
+                    title="visitas profesional"
+                    onPress={() => navigation.navigate('VisitaProfesional')}
+                />
+            </View>
+            <View style={styles.button}>
+                <Button
                     title="2.Cotizacion"
                     onPress={() => navigation.navigate('Cotizaciones')}
                 />
