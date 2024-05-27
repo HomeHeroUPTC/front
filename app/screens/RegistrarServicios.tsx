@@ -1,19 +1,65 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, Button, Alert } from "react-native";
 import HeaderProfile from "../../src/components/HeaderProfile";
 import Footer from "../../src/components/FooterHero";
 import CustomTextInput from "../../src/components/TextInput";
 import CustomPicker from "../../src/components/ComboBox";
+import { NavigationProp } from "@react-navigation/native";
 
-const RegistrarServicios = () => {
+interface RouteProps {
+    navigation: NavigationProp<any, any>;
+}
+const RegistrarServicios = ({navigation}: RouteProps) => {
     const [name, setName] = useState('');
     const [id, setId] = useState(5);
     const [price, setPrice] = useState('');
     const [descripcion, setDescription] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
+  const [servicios, setServicios] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
-    const options = ['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4'];
+
+
+    useEffect(() => {
+        const filtro = ""; // Aquí puedes definir tu filtro, por ejemplo: const filtro = "tipo=servicio";
+        const urlServicios = `https://msservice-zaewler4iq-uc.a.run.app/Services/GetServices?filter=${filtro}`;
+        fetch(urlServicios, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+          .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Data received from API:', data);
+            if (Array.isArray(data)) {
+              setServicios(data);
+            } else {
+              throw new Error('Expected an array');
+            }
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error('Error al obtener los servicios:', error);
+            setError(error);
+            setLoading(false);
+          });
+    
+      }, []);
+
+      const getServiceList = (servicios) => {
+        return servicios.map(servicios => `${servicios.title}`);
+    };
+
+    const options = getServiceList(servicios)
 
 
     const handlePress = () => {
@@ -37,25 +83,53 @@ const RegistrarServicios = () => {
     const convertToJson = () => {
         const data = {
             name: name,
-            service_id: handleServiceChange(),
+            service_id: handleServiceChange(selectedOption),
             price: parseInt(price),
-            descripcion: descripcion,
+            description: descripcion,
             hero_id: id
         };
+
+         // Realizar la solicitud POST
+         fetch('https://msservice-zaewler4iq-uc.a.run.app/Services/CreateHeroService', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al enviar los datos');
+            }
+            
+            // Verificar si la respuesta está vacía
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                // La respuesta no es JSON
+                Alert.alert('Su servicio ha sido creado exitosamente')
+                navigation.navigate('HomeHH');
+            }
+        
+            // Analizar la respuesta como JSON
+            return response.json();
+        })
+        .then(data => {
+            console.log('Cliente registrado:', data);
+            Alert.alert('Su servicio ha sido creado exitosamente')
+                navigation.navigate('HomeHH');
+            // Aquí podrías mostrar alguna confirmación al usuario si lo deseas
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
+        });
     
         return JSON.stringify(data);
     };
 
-    const handleServiceChange = () =>{
-        if(selectedOption === 'Opción 1'){
-            return 1
-        }else if(selectedOption === 'Opción 2'){
-            return 2
-        }else if(selectedOption === 'Opción 3'){
-            return 3
-        }else if(selectedOption === 'Opción 4'){
-            return 4;
-        }
+    const handleServiceChange = (title) =>{
+        const service = servicios.find(service => service.title.toLowerCase() === title.toLowerCase());
+        return service ? service.service_id : null; // Retorna null si no se encuentra 
     }
 
     const handleNameChange = (text) => {

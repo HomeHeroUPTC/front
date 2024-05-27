@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../src/components/utils/correo';
 
@@ -15,7 +15,9 @@ const FormularioProfesional = () => {
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedProfesion, setSelectedProfesion] = useState('');
     const navigation = useNavigation();
-    const {userEmail, setUserEmail} = useAuth();
+    const { userEmail, setUserEmail } = useAuth();
+    const [servicios, setServicios] = useState([]);
+
 
     const handleRegistrarProfesional = () => {
 
@@ -30,38 +32,38 @@ const FormularioProfesional = () => {
         const nuevoProfesional = {
             name: nombre,
             email: userEmail,
-            identification:id,
-            job:selectedProfesion,
+            identification: id,
+            job: selectedProfesion,
             city: selectedCity,
             image_url: "https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/lego-logo-512.png?alt=media&token=b78d7c8d-0029-46f4-bcd4-bf0c328c1de7",
-            address:direccion,
+            address: direccion,
         };
         fetch('https://msusuarios-zaewler4iq-uc.a.run.app/User/CreateHero', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(nuevoProfesional),
-            })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(nuevoProfesional),
+        })
             .then(response => {
                 if (!response.ok) {
                     console.log(response)
                     throw new Error('Error al enviar los datos');
                 }
-                
+
                 // Verificar si la respuesta está vacía
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
                     // La respuesta no es JSON
                     navigation.navigate('HomeHH');
                 }
-            
+
                 // Analizar la respuesta como JSON
                 return response.json();
             })
             .then(data => {
                 console.log('Cliente registrado:', data);
-                
+
                 // Aquí podrías mostrar alguna confirmación al usuario si lo deseas
             })
             .catch(error => {
@@ -72,6 +74,43 @@ const FormularioProfesional = () => {
         // Guardar el objeto en el estado o enviarlo al endpoint del microservicio para registrarlo
         // Aquí iría la lógica para registrar el profesional
         console.log('Registrando profesional:', nuevoProfesional);
+    };
+
+    useEffect(() => {
+        const filtro = ""; // Aquí puedes definir tu filtro, por ejemplo: const filtro = "tipo=servicio";
+        const urlServicios = `https://msservice-zaewler4iq-uc.a.run.app/Services/GetServices?filter=${filtro}`;
+        fetch(urlServicios, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data received from API:', data);
+                if (Array.isArray(data)) {
+                    setServicios(data);
+                } else {
+                    throw new Error('Expected an array');
+                }
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error al obtener los servicios:', error);
+                setError(error);
+                setLoading(false);
+            });
+
+    }, []);
+
+    const getServiceList = () => {
+        return servicios.map(servicios => `${servicios.title}`);
     };
 
     return (
@@ -107,27 +146,28 @@ const FormularioProfesional = () => {
                         onChangeText={setDireccion}
                         accessibilityLabel="DireccionInput"
                     />
-                    <View style={[styles.pickerContainer, {marginBottom: 16}]}>
+                    <View style={[styles.pickerContainer, { marginBottom: 16 }]}>
                         <Picker
                             selectedValue={selectedProfesion}
                             onValueChange={(itemValue) => setSelectedProfesion(itemValue)}
                             accessibilityLabel="ProfesionPicker">
-                            <Picker.Item label="Seleccione su profesion" value=""/>
-                            <Picker.Item label="Electicista" value="electicista"/>
-                            <Picker.Item label="Pintor" value="pintor"/>
-                            <Picker.Item label="Plomero" value="plomero"/>
+                             <Picker.Item label="Seleccione una profesión" value="" />
+                            {getServiceList().map((profession, index) => (
+                                 <Picker.Item key={index} label={profession} value={profession.toLowerCase()} />
+                            ))}
                         </Picker>
+
                     </View>
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={selectedCity}
                             onValueChange={(itemValue) => setSelectedCity(itemValue)}
                             accessibilityLabel="CiudadPicker">
-                            <Picker.Item label="Seleccione su ciudad" value=""/>
-                            <Picker.Item label="Tunja" value="tunja"/>
-                            <Picker.Item label="Bogotá" value="bogota"/>
-                            <Picker.Item label="Medellín" value="medellin"/>
-                            <Picker.Item label="Bucaramanga" value="bucaramanga"/>
+                            <Picker.Item label="Seleccione su ciudad" value="" />
+                            <Picker.Item label="Tunja" value="tunja" />
+                            <Picker.Item label="Bogotá" value="bogota" />
+                            <Picker.Item label="Medellín" value="medellin" />
+                            <Picker.Item label="Bucaramanga" value="bucaramanga" />
                         </Picker>
                     </View>
                     <TouchableOpacity style={styles.button} onPress={handleRegistrarProfesional}>
