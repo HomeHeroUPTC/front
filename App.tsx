@@ -31,10 +31,6 @@ function InsideLayout() {
     return (
         <InsideStack.Navigator>
             <InsideStack.Screen name='Login' component={Login}/>
-<<<<<<< HEAD
-=======
-            <InsideStack.Screen name='Home Hero' component={puntodeentrada} />
->>>>>>> 1156e7ba5f1bd682a2bd33dc1639ae63ff39075b
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones} />
             <InsideStack.Screen name='Visitas' component={Visitas} />
             <InsideStack.Screen name='DetallesVisita' component={DetallesVisita} />

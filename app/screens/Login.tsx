@@ -13,22 +13,13 @@ interface RouteProps {
 const getRoleFromEmail = (email) => {
     const domain = email.split('@')[1];
     if (domain === 'gmail.com') {
-<<<<<<< HEAD
         return 'homehero';
     } else if (domain === 'hotmail.com') {
-=======
-        console.log(email, 'verify hhses')
->>>>>>> 1156e7ba5f1bd682a2bd33dc1639ae63ff39075b
         return 'cliente';
     } else if (domain === 'hotmail.com') {
         return 'homehero';
     } else {
-<<<<<<< HEAD
         return 'cliente';
-=======
-        console.log(email, 'verify cl')
-        return 'homehero';
->>>>>>> 1156e7ba5f1bd682a2bd33dc1639ae63ff39075b
     }
 };
 

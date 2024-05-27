@@ -24,11 +24,11 @@ const navigation = useNavigation();
             return;
         }
             const nuevoCliente = {
-                email,
+                email: userEmail,
                 name,
                 address,
                 city: selectedCity,
-                image_url
+                image_url: 'https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/clinte.png?alt=media&token=2816ec9a-b728-4362-ab16-6689d196f734'
             };
             console.log(nuevoCliente);
             // Realizar la solicitud POST
