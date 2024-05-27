@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Alert, ScrollView, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import ProfileHH from '../../src/components/ProfileHH.js';
-import Footer from '../../src/components/Footer.js';
+import Footer from '../../src/components/FooterClient.js';
 import ProfileDetailModal from '../../src/components/ProfileDetailModal .js';
 
 const FeedHHClient = ({ route }) => {

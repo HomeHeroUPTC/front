@@ -1,7 +1,7 @@
 import React,  { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
 import HeaderProfile from "../../src/components/HeaderProfile";
-import Footer from "../../src/components/Footer";
+import Footer from "../../src/components/FooterHero";
 import CustomTextInput from "../../src/components/TextInput";
 import CustomPicker from "../../src/components/ComboBox";
 import DatePickerComponent from "../../src/components/calendario";

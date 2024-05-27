@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
 import HeaderProfile from "../../src/components/HeaderProfile";
-import Footer from "../../src/components/Footer";
+import Footer from "../../src/components/FooterHero";
 import VisitaFeed from "../../src/components/VistaFeed";
 interface RouteProps {
   navigation: NavigationProp<any, any>;
