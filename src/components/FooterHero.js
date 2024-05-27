@@ -1,14 +1,33 @@
-import React from "react";
-import {StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
-import BlueButton from './Button'; // Importa el componente BlueButton
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FooterHero = () => {
-
     const navigation = useNavigation();
+    const [heroData, setHeroData] = useState(null);
 
-    const handlePress = (ruta) => {
-        navigation.navigate(ruta);
+    useEffect(() => {
+        const fetchHeroDataFromStorage = async () => {
+            try {
+                // Recuperar los datos guardados en AsyncStorage
+                const storedData = await AsyncStorage.getItem('heroData');
+                if (storedData) {
+                    // Si hay datos almacenados, convertirlos de nuevo a objeto JSON
+                    const parsedData = JSON.parse(storedData);
+                    setHeroData(parsedData);
+                }
+            } catch (error) {
+                console.error('Error al recuperar los datos del héroe desde AsyncStorage:', error);
+            }
+        };
+        fetchHeroDataFromStorage();
+    }, []);
+
+    const handlePressVisitas = () => {
+        if (heroData) {
+            navigation.navigate('Visitas', { id_client: heroData.id });
+        }
     };
 
     return (
@@ -42,12 +61,10 @@ const FooterHero = () => {
                 />
                 <Text style={styles.text}>Cotizaciones</Text>
             </View>
-            <TouchableOpacity style={styles.iconButton} onPress={() => 
-                    navigation.navigate("Visitas",  { id_client: cliente.id})
-                }>
+            <TouchableOpacity style={styles.iconButton} onPress={handlePressVisitas}>
                 <Image
                     style={styles.image}
-                    source={{uri: 'https://img.icons8.com/ios-filled/100/visit.png'}}
+                    source={{ uri: 'https://img.icons8.com/ios-filled/100/visit.png' }}
                 />
                 <Text style={styles.text}>Visitas</Text>
             </TouchableOpacity>

@@ -1,11 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const DetallesVisita = ({ route }) => {
-    const { visitId, heroId, clientId, clientName, address, visitDate, initTime, nombreServiceProfesional, estado } = route.params;
+const DetallesVisita = ({ visit, closeModal }) => {
+    const { visitId, heroId, clientId, clientName, address, visitDate, initTime, nombreServiceProfesional, visitStatus } = visit;
 
-    const getEstadoText = (estado) => {
-        switch (estado) {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [estadoVisita, setEstadoVisita] = useState(visitStatus);
+    const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
+
+    let state = visitStatus
+
+    const getEstadoText = (state) => {
+        switch (state) {
             case 1: return 'Pendiente';
             case 2: return 'Realizada';
             case 3: return 'Cancelada';
@@ -13,12 +21,12 @@ const DetallesVisita = ({ route }) => {
         }
     };
 
-    const getButtonProps = (estado) => {
-        switch (estado) {
+    const getButtonProps = (state) => {
+        switch (state) {
             case 1:
-                return { text: 'Realizar Visita', color: styles.buttonPendiente, action: () => console.log('Realizar Visita') };
+                return { text: 'Visita realizada', color: styles.buttonPendiente, action: () => setModalVisible(true) };
             case 2:
-                return { text: 'Realizar Cotización', color: styles.buttonRealizada, action: () => console.log('Realizar Cotización') };
+                return { text: 'Realizar Cotización', color: styles.buttonRealizada, action: () => handleRealizada() };
             case 3:
                 return { text: '', color: {}, action: null };
             default:
@@ -26,7 +34,42 @@ const DetallesVisita = ({ route }) => {
         }
     };
 
-    const { text, color, action } = getButtonProps(estado);
+    const handleRealizada = () => {
+        setModalVisible(true);
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            navigation.navigate('CrearCotizaciones');
+        }, 50);
+    };
+
+    const confirmarVisitaRealizada = async () => {
+        setModalVisible(false);
+        state = 2
+        setEstadoVisita(2);
+    };
+
+    useEffect(() => {
+        console.log('El estado de la visita ha cambiado:', estadoVisita);
+    }, [estadoVisita]);
+
+    useEffect(() => {
+        if (loading) {
+            closeModal();
+        }
+    }, [loading]);
+
+    function formato24Horas(hora) {
+        if (hora < 1 || hora > 24) {
+            return "Hora inválida";
+        } else if (hora < 12) {
+            return hora + " AM";
+        } else if (hora === 12) {
+            return "12 M";
+        } else {
+            return hora - 12 + " PM";
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -34,16 +77,39 @@ const DetallesVisita = ({ route }) => {
                 <Text style={styles.title}>Detalles de la Visita</Text>
                 <Text style={styles.text}>Cliente: {clientName}</Text>
                 <Text style={styles.text}>Fecha: {visitDate}</Text>
-                <Text style={styles.text}>Hora: {initTime}</Text>
+                <Text style={styles.text}>Hora: {formato24Horas(initTime)}</Text>
                 <Text style={styles.text}>Dirección: {address}</Text>
-                <Text style={styles.text}>Servicio: {nombreServiceProfesional}</Text>
-                <Text style={styles.text}>Estado: {getEstadoText(estado)}</Text>
-                {estado !== 3 && (
-                    <TouchableOpacity style={[styles.button, color]} onPress={action}>
-                        <Text style={styles.buttonText}>{text}</Text>
+                <Text style={styles.text}>Servicio de {nombreServiceProfesional}</Text>
+                <Text style={styles.text}>Estado: {getEstadoText(estadoVisita)}</Text>
+                {estadoVisita !== 3 && (
+                    <TouchableOpacity style={[styles.button, getButtonProps(estadoVisita).color]} onPress={getButtonProps(estadoVisita).action}>
+                        <Text style={styles.buttonText}>{getButtonProps(estadoVisita).text}</Text>
                     </TouchableOpacity>
                 )}
+                <TouchableOpacity style={[styles.button, styles.buttonClose]} onPress={closeModal}>
+                    <Text style={styles.buttonText}>Cerrar</Text>
+                </TouchableOpacity>
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>¿Está seguro de que ya realizó esta visita?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity style={[styles.modalButton, styles.buttonCancel]} onPress={() => setModalVisible(false)}>
+                                <Text style={styles.buttonText}>Cancelar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.modalButton, styles.buttonAccept]} onPress={confirmarVisitaRealizada}>
+                                <Text style={styles.buttonText}>Aceptar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -52,7 +118,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#f9f9f9',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -92,7 +157,43 @@ const styles = StyleSheet.create({
     },
     buttonRealizada: {
         backgroundColor: '#0B7BFF',
-    }
+    },
+    buttonClose: {
+        backgroundColor: '#ccc',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 18,
+        marginBottom: 20,
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    modalButton: {
+        padding: 10,
+        borderRadius: 5,
+        width: '45%',
+        alignItems: 'center',
+    },
+    buttonCancel: {
+        backgroundColor: '#ccc',
+    },
+    buttonAccept: {
+        backgroundColor: '#0B7BFF',
+    },
 });
 
 export default DetallesVisita;
