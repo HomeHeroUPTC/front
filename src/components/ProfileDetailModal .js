@@ -4,6 +4,10 @@ import { Modal, View, Text, StyleSheet, Button, Image } from 'react-native';
 const ProfileDetailModal = ({ visible, onClose, profesional }) => {
   if (!profesional) return null;
 
+  const availabilityText = Array.isArray(profesional.availability)
+    ? profesional.availability.map(avail => `${avail.day}: ${avail.hours.join(', ')}`).join('\n')
+    : "No hay horarios disponibles";
+
   return (
     <Modal
       animationType="slide"
@@ -13,15 +17,15 @@ const ProfileDetailModal = ({ visible, onClose, profesional }) => {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
-          <Image style={styles.image} source={{ uri: profesional.imagenUrl }} />
-          <Text style={styles.userName}>{profesional.userName}</Text>
+          <Image style={styles.image} source={{ uri: profesional.image_url }} />
+          <Text style={styles.userName}>{profesional.hero_name}</Text>
           <Text style={styles.title}>{profesional.title}</Text>
           <Text style={styles.paragraph}>{"Ubicado en " + profesional.neighborhood}</Text>
           <Text style={styles.paragraph}>{profesional.description}</Text>
-          <Text style={styles.paragraph}>{"Calificación: " + profesional.calification}</Text>
-          <Text style={styles.paragraph}>{"Cantidad de Servicios: " + profesional.cantidadServicios}</Text>
-          <Text style={styles.paragraph}>{"Horario Disponible: " + profesional.availableSchedule}</Text>
-          <Text style={styles.paragraph}>{"Visita: " + profesional.valueVisit + " COP"}</Text>
+          <Text style={styles.paragraph}>{"Calificación: " + profesional.rating}</Text>
+          <Text style={styles.paragraph}>{"Cantidad de Servicios: " + profesional.service_count}</Text>
+          <Text style={styles.paragraph}>{"Horario Disponible: " + availabilityText}</Text>
+          <Text style={styles.paragraph}>{"Visita: " + profesional.price + " COP"}</Text>
           <Button title="Cerrar" onPress={onClose} />
         </View>
       </View>

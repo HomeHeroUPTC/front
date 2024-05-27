@@ -1,10 +1,35 @@
 import React from "react";
 import { StyleSheet, Text, View } from 'react-native';
+import moment from 'moment';
 
-const WeekDays = ({ diasDisponibles }) => {
+const WeekDays = ({ fechas }) => {
     const diasSemana = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 
-    const diasDisponiblesArray = diasDisponibles.split('').map((char) => char.toUpperCase());
+    // Función para obtener el día de la semana en formato 'L', 'M', 'X', 'J', 'V', 'S', 'D'
+    const obtenerDiaSemana = (fecha) => {
+        const diasMap = {
+            1: 'L',
+            2: 'M',
+            3: 'X',
+            4: 'J',
+            5: 'V',
+            6: 'S',
+            0: 'D'
+        };
+        return diasMap[moment(fecha).day()];
+    };
+
+    // Obtener el inicio y el final de la semana actual
+    const inicioSemana = moment().startOf('week');
+    const finSemana = moment().endOf('week');
+
+    // Filtrar las fechas que están en la misma semana que la semana actual
+    const fechasMismaSemana = fechas.filter(fecha => 
+        moment(fecha).isSameOrAfter(inicioSemana) && moment(fecha).isSameOrBefore(finSemana)
+    );
+
+    // Obtener los días disponibles en formato 'L', 'M', 'X', 'J', 'V', 'S', 'D'
+    const diasDisponiblesArray = fechasMismaSemana.map(fecha => obtenerDiaSemana(fecha));
 
     return (
         <View style={styles.daysRow}>
