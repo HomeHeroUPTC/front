@@ -1,17 +1,15 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-const VisitDescription = (visita) => {
+const VisitDescription = ({ visita }) => {
+
     return (
         <View style={styles.container}>
             <View style={styles.info}>
-                <Text style={styles.paragraph}>{"Solicitaras una visita de " + "visita.profesionalName" +
-                " para realizar un servicio de " + "visita.typeService"}
+                <Text style={styles.paragraph}>
+                    {"Solicitarás una visita de " + visita.hero_name + " para realizar un servicio de " + visita.type_service
+                    + " por un precio de " + visita.price + "COP"}
                 </Text>
-                <Text style={styles.paragraph}>{"\nDirección de la visita\n" + "visita.direction"}
-                </Text>
-            </View>
-            <View>
             </View>
         </View>
     );
