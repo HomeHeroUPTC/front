@@ -3,14 +3,16 @@ import { View, StyleSheet, ScrollView, ActivityIndicator, Text } from 'react-nat
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import Info from '../../src/components/Info.js';
 import Footer from '../../src/components/FooterClient.js';
+import { useAuth } from '../../src/components/utils/correo.js';
 
 const ProfileScreen = ({ route }) => {
   const [servicios, setServicios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cliente, setCliente] = useState(null);
-  const { correo } = route.params;
-  console.log("Tu correo es " + correo);
+  const {userEmail, setUserEmail} = useAuth();
+  const [correo, setCorreo]  = useState('');
+  console.log("Tu correo es " + userEmail);
 
   useEffect(() => {
     const filtro = ""; // Aquí puedes definir tu filtro, por ejemplo: const filtro = "tipo=servicio";
@@ -43,7 +45,7 @@ const ProfileScreen = ({ route }) => {
         setLoading(false);
       });
 
-    const urlCliente = `https://msusuarios-zaewler4iq-uc.a.run.app/User/GetClientByMail?client_mail=${correo}`;
+    const urlCliente = `https://msusuarios-zaewler4iq-uc.a.run.app/User/GetClientByMail?client_mail=${userEmail}`;
     fetch(urlCliente, {
       method: 'GET',
       headers: {
