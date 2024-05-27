@@ -1,13 +1,19 @@
 import React from "react";
-import {StyleSheet, View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import BlueButton from './Button'; // Importa el componente BlueButton
+import { useNavigation } from '@react-navigation/native';
 
-const Footer = () => {
+const FooterHero = () => {
+
+    const navigation = useNavigation();
+
+    const handlePress = (ruta) => {
+        navigation.navigate(ruta);
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.iconButton}>
-
-
                 <Image
                     style={styles.image}
                     source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
@@ -22,13 +28,13 @@ const Footer = () => {
                 />
                 <Text style={styles.text}>Historial</Text>
             </View>
-            <View style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress('HomeHH')}>
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/home.png'}}
                 />
                 <Text style={styles.text}>Inicio</Text>
-            </View>
+            </TouchableOpacity>
             <View style={styles.iconButton}>
                 <Image
                     style={styles.image}
@@ -79,4 +85,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Footer;
+export default FooterHero;

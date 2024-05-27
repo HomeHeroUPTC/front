@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import Footer from '../../src/components/Footer';
+import Footer from '../../src/components/FooterClient';
 import HeaderProfile from '../../src/components/HeaderProfile';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import VisitDescription from '../../src/components/VisitDescription.js';

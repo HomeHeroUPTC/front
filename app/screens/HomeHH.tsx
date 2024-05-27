@@ -4,7 +4,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { useAuth } from '../../src/components/utils/correo';
 import ServiciosHH from '../../src/components/ServiciosHome';
 import RoundButton from '../../src/components/ButonAdd';
-import Footer from '../../src/components/Footer';
+import Footer from '../../src/components/FooterHero';
 import HeaderProfile from '../../src/components/HeaderProfile';
 
 interface RouteProps {

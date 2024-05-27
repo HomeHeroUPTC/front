@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, ActivityIndicator, Text } from 'react-native';
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import Info from '../../src/components/Info.js';
-import Footer from '../../src/components/Footer.js';
+import Footer from '../../src/components/FooterClient.js';
 
 const ProfileScreen = ({ route }) => {
   const [servicios, setServicios] = useState([]);

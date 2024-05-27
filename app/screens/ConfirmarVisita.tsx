@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Modal } from 'react-native';
 import HeaderProfile from '../../src/components/HeaderProfile.js';
-import Footer from '../../src/components/Footer.js';
+import Footer from '../../src/components/FooterClient.js';
 import { Calendar as RNCalendar } from 'react-native-calendars';
 import VisitDescription from '../../src/components/VisitDescription.js';
 import { useNavigation } from '@react-navigation/native';
