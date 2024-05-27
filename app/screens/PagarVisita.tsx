@@ -109,7 +109,7 @@ export default function PagarVisita() {
                     <Text style={styles.buttonText}>Cancelar</Text>
                 </TouchableOpacity>
             </ScrollView>
-            <Footer />
+            <Footer cliente={visita_V.cliente} />
         </View>
     );
 }

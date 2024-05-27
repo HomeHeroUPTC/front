@@ -2,17 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import PlantDescripcionBtn from "../../src/components/PlantDescripcionBtn";
+import { RouteProp } from '@react-navigation/native';
 
+interface RouteParams {
+    id_client: number; // O el tipo adecuado para tu caso
+}
 interface RouteProps {
     navigation: NavigationProp<any, any>;
+    route: {
+        params: RouteParams;
+    };
 }
 
-export default function Visitas({ navigation }: RouteProps) {
+export default function Visitas({ navigation, route }: RouteProps) {
     const [plantDescriptions, setPlantDescriptions] = useState([]);
 
     useEffect(() => {
-        // Aquí realizas la solicitud HTTP al endpoint
-        fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=2')
+
+        fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=3')
             .then(response => response.json())
             .then(data => {
                 // Una vez que se recibe la respuesta, actualiza el estado con los datos recibidos

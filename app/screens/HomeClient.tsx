@@ -102,7 +102,7 @@ const ProfileScreen = ({ route }) => {
           </View>
         </ScrollView>
         <View style={styles.footer}>
-          <Footer />
+          <Footer cliente={cliente} />
         </View>
       </View>
     );
@@ -126,7 +126,7 @@ const ProfileScreen = ({ route }) => {
         </View>
       </ScrollView>  
       <View style={styles.footer}>
-        <Footer />
+        <Footer cliente={cliente} />
       </View>
     </View>
   );

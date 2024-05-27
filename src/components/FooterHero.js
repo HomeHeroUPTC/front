@@ -42,13 +42,15 @@ const FooterHero = () => {
                 />
                 <Text style={styles.text}>Cotizaciones</Text>
             </View>
-            <View style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => 
+                    navigation.navigate("Visitas",  { id_client: cliente.id})
+                }>
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/visit.png'}}
                 />
                 <Text style={styles.text}>Visitas</Text>
-            </View>
+            </TouchableOpacity>
 
 
 

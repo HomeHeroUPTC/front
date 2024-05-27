@@ -85,7 +85,7 @@ const FeedHHClient = ({ route }) => {
           </View>
         </ScrollView>
         <View style={styles.footer}>
-          <Footer />
+          <Footer cliente={cliente} />
         </View>
       </View>
     );
@@ -111,7 +111,7 @@ const FeedHHClient = ({ route }) => {
         </View>
       </ScrollView>  
       <View style={styles.footer}>
-        <Footer />
+        <Footer cliente={cliente} />
       </View>
       <ProfileDetailModal 
         visible={modalVisible} 
