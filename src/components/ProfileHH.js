@@ -1,33 +1,58 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from 'react-native';
-import WeekDays from './WeekDays'; 
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import WeekDays from './WeekDays';
+import { useNavigation } from '@react-navigation/native';
 
-const ProfileHH = ({ profesional }) => {
-    console.log(profesional);
+
+
+const ProfileHH = ({ profesional , cliente}) => {
+
+    const navigation = useNavigation();
+
+    const fechasDisponibles = profesional.availability.map(item => item.day);
+
+    const handlePress = () => {
+        // Crear el objeto visita
+        const visita_V = {
+            type_service: profesional.service_type,
+            service_id: profesional.service_id,
+            id: profesional.id,
+            hero_name: profesional.hero_name,
+            price: profesional.price,
+            availability: profesional.availability,
+            cliente: cliente
+        };
+
+        console.log(visita_V)
+
+        navigation.navigate('ConfirmarVisita', { visita_V });
+    };
+
     return (
-        <View style={styles.container}>
-            <View style={styles.infoUser}>
-                <Image
-                    style={styles.image}
-                    source={{ uri: profesional.imagenUrl}}
-                />
-                <Text style={styles.userName}>{profesional.userName}</Text>
-            </View>
-            <View style={styles.info}>
-                <Text style={styles.title}>{profesional.title}</Text>
-                <Text style={styles.paragraph}>{"Ubicado en " + profesional.neighborhood}</Text>
-                <Text style={styles.paragraph}>
-                    {profesional.description}
-                </Text>
-                <View style={styles.schedule}>
-                    <WeekDays diasDisponibles={profesional.availableDays} />
-                    <Text style={styles.hours}>{profesional.availableSchedule}</Text>
+        <TouchableOpacity onPress={handlePress}>
+            <View style={styles.container}>
+                <View style={styles.infoUser}>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: profesional.image_url }}
+                    />
+                    <Text style={styles.userName}>{profesional.hero_name}</Text>
                 </View>
-                <View style={styles.value}>
-                  <Text style={styles.valueVisit}>{profesional.valueVisit + "COP"}</Text>
+                <View style={styles.info}>
+                    <Text style={styles.title}>{profesional.title}</Text>
+                    <Text style={styles.paragraph}>{"Ubicado en " + profesional.neighborhood}</Text>
+                    <Text style={styles.paragraph}>
+                        {profesional.description}
+                    </Text>
+                    <View style={styles.schedule}>
+                        <WeekDays fechas={fechasDisponibles} />
+                    </View>
+                    <View style={styles.value}>
+                        <Text style={styles.valueVisit}>{profesional.price + " COP"}</Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -76,53 +101,18 @@ const styles = StyleSheet.create({
         color: '#171717',
         marginBottom: 4,
     },
-    hours: {
-      fontSize: 16,
-      color: '#171717',
-      marginBottom: 3,
-      marginTop: 3
-    },
     schedule: {
         marginTop: 5,
         marginBottom: 5,
     },
-    daysRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 5,
-        marginBottom: 5,
-    },
-    day: {
-        width: 30,
-        height: 30,
-        textAlign: 'center',
-        lineHeight: 30,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        fontSize: 16,
+    valueVisit: {
+        fontSize: 22,
         fontWeight: 'bold',
+        marginBottom: 4,
         color: '#171717',
     },
-    dayAvailable: {
-        backgroundColor: 'lightgreen',
-    },
-    dayNotAvailable: {
-        backgroundColor: 'lightgray',
-    },
-    valueVisit:{
-      fontSize: 22,
-      fontWeight: 'bold',
-      marginBottom: 4,
-      color: '#171717',
-    },
-    valueVisitText:{
-      marginTop: '3%',
-      color: '#01a651',
-      fontSize: 16
-    },
-    value:{
-      flexDirection: 'row'
+    value: {
+        flexDirection: 'row'
     }
 });
 

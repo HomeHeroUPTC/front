@@ -29,7 +29,7 @@ const InsideStack = createNativeStackNavigator();
 function InsideLayout() {
     return (
         <InsideStack.Navigator>
-            <InsideStack.Screen name='Login' component={puntodeentrada}/>
+            <InsideStack.Screen name='Login' component={Login}/>
             <InsideStack.Screen name='Home Hero' component={puntodeentrada} />
             <InsideStack.Screen name='Cotizaciones' component={Cotizaciones} />
             <InsideStack.Screen name='Visitas' component={Visitas} />

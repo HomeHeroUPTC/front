@@ -5,20 +5,21 @@ import ProfileHH from '../../src/components/ProfileHH.js';
 import Footer from '../../src/components/Footer.js';
 import ProfileDetailModal from '../../src/components/ProfileDetailModal .js';
 
-const FeedHHClient = () => {
-  const [profesional, setProfesionales] = useState([]);
+const FeedHHClient = ({ route }) => {
+  const { id: service_id, service_type , cliente} = route.params;
+  const [profesionales, setProfesionales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProfesional, setSelectedProfesional] = useState(null);
 
   useEffect(() => {
-    const url = `https://61a1-132-255-20-2.ngrok-free.app/GetServiciosProfesionales`;
+    const url = `https://msservice-zaewler4iq-uc.a.run.app/Services/GetHeroServices?service_id=${service_id}`;
     fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
+      }
     })
       .then(response => {
         if (!response.ok) {
@@ -28,7 +29,12 @@ const FeedHHClient = () => {
       })
       .then(data => {
         if (Array.isArray(data)) {
-          setProfesionales(data);
+          const profesionalesWithServiceId = data.map(profesional => ({
+            ...profesional,
+            service_id: service_id,// Agregando la propiedad service_id
+            service_type: service_type
+          }));
+          setProfesionales(profesionalesWithServiceId);
         } else {
           throw new Error('Expected an array');
         }
@@ -38,7 +44,7 @@ const FeedHHClient = () => {
         setError(error);
         setLoading(false);
       });
-  }, []);
+  }, [service_id]);
 
   const handlePress = (profesional) => {
     setSelectedProfesional(profesional);
@@ -58,22 +64,22 @@ const FeedHHClient = () => {
     );
   }
 
-  if (error || profesional.length === 0) {
+  if (error || profesionales.length === 0) {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollContainer} stickyHeaderIndices={[0]}>
           <View style={styles.header}>
             <HeaderProfile 
               companyName='Home Hero' 
-              userImage={'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400'}
-              username="SebasLPZ"
+              userImage={cliente.url_img}
+              username={cliente.name}
               description={"Profesionales"}
             />
           </View>
           <View style={styles.body}>
             <View style={styles.info}>
               <Text style={styles.errorText}>
-                Por ahora no tenemos prófesionales que realicen el servicio que deseas, discúlpanos.
+                Por ahora no tenemos profesionales que realicen el servicio que deseas, discúlpanos.
               </Text>
             </View>
           </View>
@@ -91,15 +97,15 @@ const FeedHHClient = () => {
         <View style={styles.headerInfo}>
           <HeaderProfile 
             companyName='Home Hero'
-            userImage={'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400'}
-            username="SebasLPZ"
+            userImage={cliente.image_url}
+            username={cliente.name}
             description={"Profesionales"}
           />
         </View>
         <View style={styles.bodyInfo}>
-          {profesional.map((profesional, index) => (
+          {profesionales.map((profesional, index) => (
             <TouchableOpacity key={index} onPress={() => handlePress(profesional)}>
-              <ProfileHH profesional={profesional} />
+              <ProfileHH profesional={profesional} cliente={cliente}/>
             </TouchableOpacity>
           ))}
         </View>
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerInfo:{
-    height: '3%',
+    height: '8%',
     backgroundColor: '#fff',
   },
   body:{

@@ -14,12 +14,12 @@ const getRoleFromEmail = (email) => {
     const domain = email.split('@')[1];
     if (domain === 'gmail.com') {
         console.log(email, 'verify hhses')
-        return 'homehero';
-    } else if (domain === 'hotmail.com') {
         return 'cliente';
+    } else if (domain === 'hotmail.com') {
+        return 'homehero';
     } else {
         console.log(email, 'verify cl')
-        return 'cliente';
+        return 'homehero';
     }
 };
 
@@ -33,7 +33,7 @@ const Login = ({navigation}: RouteProps) => {
     const navigateToScreen = () => {
         const role =getRoleFromEmail(email)
         if (role === 'cliente') {
-            navigation.navigate('HomeCliente');
+            navigation.navigate('HomeCliente',{correo:email});
         } else if (role === 'homehero') {
             navigation.navigate('HomeHH');
         }

@@ -4,22 +4,22 @@ import HeaderProfile from '../../src/components/HeaderProfile.js';
 import Info from '../../src/components/Info.js';
 import Footer from '../../src/components/Footer.js';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ route }) => {
   const [servicios, setServicios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cliente, setCliente] = useState(null);
+  const { correo } = route.params;
+  console.log("Tu correo es " + correo);
 
   useEffect(() => {
-    // Definir la palabra clave
-    const palabraClave = 'Servicio';
-  
-    // Construir la URL con la palabra clave como parámetro de consulta
-    const url = `https://e18e-132-255-20-2.ngrok-free.app/GetServicios`;
-    fetch(url, {
+    const filtro = ""; // Aquí puedes definir tu filtro, por ejemplo: const filtro = "tipo=servicio";
+    const urlServicios = `https://msservice-zaewler4iq-uc.a.run.app/Services/GetServices?filter=${filtro}`;
+    fetch(urlServicios, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
+      }
     })
       .then(response => {
         console.log('Response status:', response.status);
@@ -42,7 +42,34 @@ const ProfileScreen = () => {
         setError(error);
         setLoading(false);
       });
+
+    const urlCliente = `https://msusuarios-zaewler4iq-uc.a.run.app/User/GetClientByMail?client_mail=${correo}`;
+    fetch(urlCliente, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Data received from API:', data);
+        setCliente(data);
+      })
+      .catch(error => {
+        console.error('Error al obtener el cliente:', error);
+        setError(error);
+      });
   }, []);
+
+  const handlePress = (id) => {
+    console.log('Servicio seleccionado con ID:', id);
+  };
 
   if (loading) {
     return (
@@ -52,15 +79,15 @@ const ProfileScreen = () => {
     );
   }
 
-  if (error || servicios.length === 0) {
+  if (error || !cliente) {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollContainer} stickyHeaderIndices={[0]}>
           <View style={styles.header}>
             <HeaderProfile 
-              companyName='Home Hero' 
-              userImage={'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400'}
-              username="SebasLPZ"
+              companyName='Home Hero'
+              userImage={cliente ? cliente.image_url : ''}
+              username={cliente ? cliente.name : ''}
               description={"Servicios"}
             />
           </View>
@@ -85,14 +112,14 @@ const ProfileScreen = () => {
         <View style={styles.headerInfo}>
           <HeaderProfile 
             companyName='Home Hero'
-            userImage={'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400'}
-            username="SebasLPZ"
+            userImage={cliente.image_url}
+            username={cliente.name}
             description={"Servicios"}
           />
         </View>
         <View style={styles.bodyInfo}>
           {servicios.map((servicio, index) => (
-            <Info key={index} servicio={servicio} />
+            <Info key={index} servicio={servicio} cliente={cliente} />
           ))}
         </View>
       </ScrollView>  
@@ -117,7 +144,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
     },
     headerInfo:{
-      height: '8%',
+      height: '4%',
       backgroundColor: '#fff',
     },
     body:{
