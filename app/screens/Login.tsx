@@ -1,5 +1,5 @@
 import {View, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoidingView} from 'react-native'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '../../src/components/utils/correo';
@@ -30,15 +30,77 @@ const Login = ({navigation}: RouteProps) => {
     const auth = FIREBASE_AUTH
     const {userEmail, setUserEmail} = useAuth();
     const {role,setRoleFromEmail} = useRole();
-    const navigateToScreen = () => {
-        const role =getRoleFromEmail(email)
+    const [cliente, setCliente] = useState(null);
+    const [error, setError] = useState(null);
+    
+    const navigateToScreen = async () => {
+        const role = await getRole(email);
         if (role === 'cliente') {
-            navigation.navigate('HomeCliente',{correo:email});
+            navigation.navigate('HomeCliente', { correo: email });
         } else if (role === 'homehero') {
             navigation.navigate('HomeHH');
+        } else {
+            navigation.navigate('SeleccionPerfil');
         }
     };
 
+    const getRole = async (email) => {
+        const login_client = await loginClient(email);
+        if (login_client === 'ok') {
+            return 'cliente';
+        } else {
+            const login_HH = await loginHH(email);
+            if (login_HH === 'ok') {
+                return 'homehero';
+            } else {
+                return 'sin ROl';
+            }
+        }
+    }
+    
+
+    const loginHH = async (email) => {
+        const urlCliente = `https://msusuarios-zaewler4iq-uc.a.run.app/User/GetHeroByMail?hero_mail=${email}`;
+        try {
+            const response = await fetch(urlCliente, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log('Data received from API (HH):', data);
+            return 'ok';
+        } catch (error) {
+            console.error('Error al obtener el home hero:', error);
+            return 'false';
+        }
+    }
+    
+    const loginClient = async (email) => {
+        const urlCliente = `https://msusuarios-zaewler4iq-uc.a.run.app/User/GetClientByMail?client_mail=${email}`;
+        try {
+            const response = await fetch(urlCliente, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log('Data received from API (Client):', data);
+            return 'ok';
+        } catch (error) {
+            console.error('Error al obtener el cliente:', error);
+            return 'false';
+        }
+    }
+    
     const selectRegister = () => {
         navigation.navigate('SeleccionPerfil');
     }
