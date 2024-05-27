@@ -1,15 +1,10 @@
 import React from "react";
 import {StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
-import BlueButton from './Button'; // Importa el componente BlueButton
 import { useNavigation } from '@react-navigation/native';
 
-const FooterClient = () => {
+const FooterClient = ({cliente}) => {
 
     const navigation = useNavigation();
-
-    const handlePress = (ruta) => {
-        navigation.navigate(ruta,  { correo: ""});
-    };
 
     return (
         <View style={styles.container}>
@@ -28,7 +23,9 @@ const FooterClient = () => {
                 />
                 <Text style={styles.text}>Historial</Text>
             </View>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress('HomeCliente')}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => 
+                    navigation.navigate("HomeCliente",  { correo: ""})
+                }>
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/home.png'}}
@@ -48,7 +45,7 @@ const FooterClient = () => {
                     source={{uri: 'https://img.icons8.com/ios-filled/100/visit.png'}}
                 />
                 <Text style={styles.text}>Visitas</Text>
-            </View>
+                </View>
 
 
 

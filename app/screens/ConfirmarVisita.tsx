@@ -89,7 +89,7 @@ export default function ConfirmarVisita({ route }) {
                 )}
             </ScrollView>
 
-            <Footer />
+            <Footer cliente={visita_V.cliente} />
 
             <Modal
                 animationType="slide"
