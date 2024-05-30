@@ -3,9 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import WeekDays from './WeekDays';
 import { useNavigation } from '@react-navigation/native';
 
-
-
-const ProfileHH = ({ profesional , cliente}) => {
+const ProfileHH = ({ profesional, cliente }) => {
 
     const navigation = useNavigation();
 
@@ -36,7 +34,7 @@ const ProfileHH = ({ profesional , cliente}) => {
                         style={styles.image}
                         source={{ uri: profesional.image_url }}
                     />
-                    <Text style={styles.userName}>{profesional.hero_name}</Text>
+                    <Text style={styles.userName}>{profesional.hero_name.split(' ')[0]}</Text>
                 </View>
                 <View style={styles.info}>
                     <Text style={styles.title}>{profesional.title}</Text>
@@ -44,11 +42,15 @@ const ProfileHH = ({ profesional , cliente}) => {
                     <Text style={styles.paragraph}>
                         {profesional.description}
                     </Text>
+                    <View style={styles.daysAvailableContainer}>
+                        <Text style={styles.daysAvailableText}>{"\nDías disponibles"}</Text>
+                        <View style={styles.blueSquare}></View>
+                    </View>
                     <View style={styles.schedule}>
                         <WeekDays fechas={fechasDisponibles} />
                     </View>
                     <View style={styles.value}>
-                        <Text style={styles.valueVisit}>{profesional.price + " COP"}</Text>
+                        <Text style={styles.valueVisit}>{"$" + profesional.price + " COP"}</Text>
                     </View>
                 </View>
             </View>
@@ -113,7 +115,24 @@ const styles = StyleSheet.create({
     },
     value: {
         flexDirection: 'row'
-    }
+    },
+    daysAvailableContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    daysAvailableText: {
+        marginRight: 5,
+        fontSize: 14,
+        color: '#171717',
+    },
+    blueSquare: {
+        top: 8,
+        width: 20,
+        height: 20,
+        borderRadius: 5, // Ajusta el radio para redondear el cuadrado
+        backgroundColor: '#0B7BFF', // Cambia el color a #0B7BFF
+    },
+    
 });
 
 export default ProfileHH;

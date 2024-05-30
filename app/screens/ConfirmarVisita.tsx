@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Modal } from 'react-native';
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import Footer from '../../src/components/FooterClient.js';
@@ -7,22 +7,35 @@ import VisitDescription from '../../src/components/VisitDescription.js';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ConfirmarVisita({ route }) {
-    const { visita_V} = route.params;
+    const { visita_V } = route.params;
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
     const [selectedHour, setSelectedHour] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
 
+    // Asegurarse de que las fechas tengan ceros delante de los números de un solo dígito en el día
+    useEffect(() => {
+        const availabilityWithPaddedDates = visita_V.availability.map(item => {
+            if (item && item.day) {
+                const paddedDay = item.day.split('-').map(part => part.padStart(2, '0')).join('-');
+                return { ...item, day: paddedDay };
+            }
+            return item;
+        });
+        visita_V.availability = availabilityWithPaddedDates;
+    }, [visita_V.availability]);
+
+    console.log("Lo que le llega al ConfirmarVisita " + JSON.stringify(visita_V.availability));
+
     const handleDayPress = (day) => {
         const availabilityForSelectedDate = visita_V.availability.find(item => item.day === day.dateString);
         if (availabilityForSelectedDate) {
-            const horasDisponibles = availabilityForSelectedDate.hours;
-            setAvailableHours(horasDisponibles);
+            setAvailableHours(availabilityForSelectedDate.hours);
             setSelectedDate(day.dateString);
         } else {
-            setSelectedDate(null);
             setAvailableHours([]);
+            setSelectedDate(null);
         }
     };
 
@@ -45,15 +58,20 @@ export default function ConfirmarVisita({ route }) {
         setModalVisible(false);
     };
 
-    const customDates = visita_V.availability.reduce((dates, item) => {
-        const { day, hours } = item;
-        const markedHours = hours.reduce((acc, hour) => {
-            acc[`${day}T${hour}`] = { selected: true, selectedColor: '#48D220' };
-            return acc;
-        }, {});
-        dates[day] = { selected: true, selectedColor: '#0B7BFF', ...markedHours };
-        return dates;
+    const customDates = visita_V.availability.reduce((acc, item) => {
+        if (item && item.day) {
+            const paddedDay = item.day.split('-').map(part => part.padStart(2, '0')).join('-');
+            console.log("Dia " + paddedDay);
+            acc[paddedDay] = { selected: true, marked: false, selectedColor: '#0B7BFF' };
+        }
+        return acc;
     }, {});
+
+    useEffect(() => {
+        if (selectedDate) {
+            handleDayPress({ dateString: selectedDate });
+        }
+    }, [selectedDate]);
 
     return (
         <View style={styles.container}>
@@ -68,7 +86,7 @@ export default function ConfirmarVisita({ route }) {
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <VisitDescription visita={visita_V} />
                 <Text style={styles.paragraph2}>
-                            {"\nDirección de la visita\n" + visita_V.cliente.address}
+                    {"\nDirección de la visita\n" + visita_V.cliente.address}
                 </Text>
                 <RNCalendar
                     onDayPress={handleDayPress}
@@ -80,17 +98,17 @@ export default function ConfirmarVisita({ route }) {
                 {selectedDate && availableHours.length > 0 && (
                     <View style={styles.selectedHourContainer}>
                         <Text style={styles.selectedHourTitle}>Selecciona una hora:</Text>
-                        <ScrollView horizontal>
+                        <ScrollView>
                             {availableHours.map(hour => (
-                                <Text key={hour} onPress={() => handleHourSelect(hour)} style={styles.hourItem}>{convertirHoraFormato12(hour)}</Text>
+                                <TouchableOpacity key={hour} onPress={() => handleHourSelect(hour)} style={styles.hourItem}>
+                                    <Text style={styles.hourText}>{convertirHoraFormato12(hour)}</Text>
+                                </TouchableOpacity>
                             ))}
                         </ScrollView>
                     </View>
                 )}
             </ScrollView>
-
             <Footer cliente={visita_V.cliente} />
-
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -111,7 +129,6 @@ export default function ConfirmarVisita({ route }) {
                         <TouchableOpacity style={styles.modalButton} onPress={() => {
                             closeModal();
                             navigation.navigate('PagarVisita', { visita_V, selectedDate, selectedHour });
-                            console.log("Fecha y hora del Confirmar " + selectedDate + ",   " + selectedHour)
                         }}>
                             <Text>Pagar</Text>
                         </TouchableOpacity>
@@ -120,7 +137,7 @@ export default function ConfirmarVisita({ route }) {
             </Modal>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -131,39 +148,44 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         paddingVertical: 20,
         paddingHorizontal: 10,
-        paddingBottom: '20%'
+        paddingBottom: '20%',
     },
     headerInfo: {
         height: '6%',
         backgroundColor: '#fff',
     },
     selectedHourContainer: {
+        flexDirection: 'column',
         marginTop: 20,
     },
     selectedHourTitle: {
         fontSize: 18,
         marginBottom: 10,
     },
-    paragraph:{
+    paragraph: {
         color: '#171717',
         fontSize: 20,
     },
-    paragraph2:{
+    paragraph2: {
         color: '#171717',
         fontSize: 20,
-        bottom:'6%',
-        marginLeft: '3%'
+        bottom: '6%',
+        marginLeft: '3%',
     },
     hourItem: {
         backgroundColor: '#DDDDDD',
         padding: 10,
         margin: 5,
+        borderRadius: 5,
+    },
+    hourText: {
         fontSize: 16,
     },
     fechaMostrar: {
         fontSize: 20,
         textAlign: 'center',
         marginVertical: 10,
+        flexDirection: 'row'
     },
     modalContainer: {
         flex: 1,
@@ -175,7 +197,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 20,
         borderRadius: 10,
-        alignItems: 'center',
+        alignItems: 'center'
     },
     modalButton: {
         marginTop: 10,
