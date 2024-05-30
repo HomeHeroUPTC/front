@@ -12,8 +12,7 @@ const AgendaComponente = ({ fecha, hora, descripcion, direccion, precio }) => {
 
     // Función para convertir la hora al formato militar
     const formatHora = (hora) => {
-        const [hour, minute] = hora.split(':');
-        return `${hour}:00`;
+        return `${hora}:00`;
     };
 
     return (
