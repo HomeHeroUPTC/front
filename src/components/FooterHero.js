@@ -30,20 +30,36 @@ const FooterHero = () => {
         }
     };
 
+
+    const handlePressAgenda = () => {
+            navigation.navigate('Agenda', { id_client: heroData.id });
+    };
+
+    const handlePressHistorial = () => {
+        navigation.navigate('Agenda', { id_client: heroData.id });
+    };
+
+    const handlePressInicio = () => {
+        navigation.navigate('HomeHH', { id_client: heroData.id });
+    };
+
     const handlePressCotizaciones = () => {
-            navigation.navigate('Cotizaciones', { id_client: heroData.id });
+        navigation.navigate('Cotizaciones', { id_client: heroData.id });
     };
 
 
     return (
         <View style={styles.container}>
             <View style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={() => handlePressAgenda()}>
                 <Image
                     style={styles.image}
                     source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
+                    
                 />
 
                 <Text style={styles.text}>Agenda</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.iconButton}>
                 <Image
@@ -52,7 +68,7 @@ const FooterHero = () => {
                 />
                 <Text style={styles.text}>Historial</Text>
             </View>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress('HomeHH')}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePressInicio()}>
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/home.png'}}
@@ -60,7 +76,6 @@ const FooterHero = () => {
                 <Text style={styles.text}>Inicio</Text>
             </TouchableOpacity>
             <View style={styles.iconButton}>
-                <TouchableOpacity style={styles.iconButton} onPress={handlePressCotizaciones}>
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/receipt-dollar.png'}}
