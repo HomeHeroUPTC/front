@@ -49,6 +49,7 @@ const navigation = useNavigation();
                 if (!contentType || !contentType.includes('application/json')) {
                     // La respuesta no es JSON
                     navigation.navigate('HomeCliente');
+                    Alert.alert('Cliente creado correctamente')
                 }
             
                 // Analizar la respuesta como JSON
@@ -60,8 +61,8 @@ const navigation = useNavigation();
                 // Aquí podrías mostrar alguna confirmación al usuario si lo deseas
             })
             .catch(error => {
-                console.error('Error:', error);
-                Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
+                //console.error('Error:', error);
+                //Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
             });
             
     
