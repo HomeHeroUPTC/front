@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
-const PlantDescripcionBtn = ({ image_url, visitId, heroId, clientName, clientId, address, visitDate, initTime, nombreServiceProfesional, estado, onPress }) => {
+const PlantDescripcionBtn = ({ image_url, visitId, heroId, clientName, clientId, address, visitDate, initTime, nombreServiceProfesional, estado, service_id, onPress }) => {
 
     // Función para obtener el texto y el estilo del estado
     const getEstadoInfo = (estado) => {
@@ -42,17 +42,17 @@ const PlantDescripcionBtn = ({ image_url, visitId, heroId, clientName, clientId,
                     <View style={styles.textContainer}>
                         <View style={styles.texts}>
                             <Text style={styles.title}>
-                                {"UserName"}
+                                {clientName}
                             </Text>
                             <View style={styles.infoVisit}>
                                 <Text style={styles.paragraph}>
                                     {visitDate}
                                 </Text>
                                 <Text style={styles.paragraph}>
-                                    {formato24Horas(19)}
+                                    {formato24Horas(initTime)}
                                 </Text>
                                 <Text style={styles.paragraph}>
-                                    {"Servicio de " + "Pintura"}
+                                    {"Servicio de " + nombreServiceProfesional}
                                 </Text>
                             </View>
                         </View>

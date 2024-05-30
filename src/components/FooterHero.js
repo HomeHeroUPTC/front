@@ -67,7 +67,11 @@ const FooterHero = () => {
                 />
                 <Text style={styles.text}>Historial</Text>
             </View>
+<<<<<<< HEAD
+            <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('HomeHH')}>
+=======
             <TouchableOpacity style={styles.iconButton} onPress={() => handlePressInicio()}>
+>>>>>>> b4a6494176aa02f173cfd56a2f092d3db8c05b1a
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/home.png'}}

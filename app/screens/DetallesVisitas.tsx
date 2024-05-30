@@ -3,14 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 
 const DetallesVisita = ({ visit, closeModal }) => {
-    const { visitId, heroId, clientId, clientName, address, visitDate, initTime, nombreServiceProfesional, visitStatus } = visit;
-
+    const { visitId, service_id, heroId, clientId, clientName, address, visitDate, initTime, nombreServiceProfesional, visitStatus } = visit;
     const [modalVisible, setModalVisible] = useState(false);
     const [estadoVisita, setEstadoVisita] = useState(visitStatus);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
-    let state = visitStatus
+    let state = visitStatus;
 
     const getEstadoText = (state) => {
         switch (state) {
@@ -35,17 +34,40 @@ const DetallesVisita = ({ visit, closeModal }) => {
     };
 
     const handleRealizada = () => {
-        setModalVisible(true);
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-            navigation.navigate('CrearCotizaciones');
+            navigation.navigate('CrearCotizaciones', { visit_id: visitId, hero_id: heroId,
+                service_id: service_id,
+                client_id: clientId,
+                address: address,
+                client_name: clientName,
+                service_name: nombreServiceProfesional
+            });
         }, 50);
     };
 
     const confirmarVisitaRealizada = async () => {
+        try {
+            const response = await fetch(`https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/UpdateVisitStatus?visit_id=${visitId}&status=2`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                console.log('Estado de la visita actualizado correctamente');
+                setModalVisible(false);
+                setEstadoVisita(2);
+            } else {
+                console.error('Error al actualizar el estado de la visita:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
         setModalVisible(false);
-        state = 2
+        state = 2;
         setEstadoVisita(2);
     };
 

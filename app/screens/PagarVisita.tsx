@@ -5,24 +5,72 @@ import HeaderProfile from '../../src/components/HeaderProfile';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import VisitDescription from '../../src/components/VisitDescription.js';
 
-export default function PagarVisita() {
+export default function PagarVisita({ route }) {
     const navigation = useNavigation();
-    const route = useRoute();
-    const { visita_V, selectedDate, selectedHour } = route.params;
-    const [modalVisible, setModalVisible] = useState(false);
+    const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+    const { visita_V, selectedDate, selectedHour, id } = route.params || {};
 
-    const handlePagar = () => {
-        setModalVisible(true);
-        // Aquí podrías realizar cualquier otra lógica relacionada con el pago si fuera necesario
+    if (!visita_V || !visita_V.cliente) {
+        return <Text>Error: visita_V o visita_V.cliente no está definido</Text>;
+    }
+
+
+    const handlePagar = async () => {
+        try {
+            if (!visita_V || !visita_V.cliente) {
+                console.error('Error: Visita o cliente no definidos');
+                return;
+            }
+
+            console.log(visita_V.service_name)
+    
+            const requestData = {
+                hero_id: id,
+                hero_service_id: visita_V.hero_service_id,
+                client_id: visita_V.cliente.id,
+                visit_date: selectedDate,
+                init_time: parseInt(selectedHour), // Convertir la hora a entero si es necesario
+                address: visita_V.cliente.address,
+                service_name: visita_V.service_name,
+                image_url: visita_V.image_url
+            };
+
+            const response = await fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/CreateVisit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+    
+            if (response.ok) {
+                // El pago se realizó con éxito y la visita se creó correctamente
+                setIsPaymentSuccessful(true);
+            } else {
+                // Hubo un error en la solicitud
+                console.error('Error al realizar la solicitud:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al procesar el pago:', error);
+            // Podrías mostrar un mensaje de error aquí si el pago falla
+        }
     };
-
+    
+    
     const handleCancelar = () => {
         navigation.navigate('HomeCliente', { correo: '' });
     };
 
     const closeModal = () => {
-        setModalVisible(false);
+        setIsPaymentSuccessful(false);
         navigation.navigate('HomeCliente', { correo: '' });
+    };
+
+    const simularPago = () => {
+        return new Promise((resolve) => {
+            // Simulando un retraso para imitar un proceso de pago real
+            setTimeout(resolve, 2000);
+        });
     };
 
     return (
@@ -58,7 +106,7 @@ export default function PagarVisita() {
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={modalVisible}
+                visible={isPaymentSuccessful}
                 onRequestClose={closeModal}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>

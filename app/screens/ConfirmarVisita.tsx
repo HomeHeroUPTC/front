@@ -7,12 +7,16 @@ import VisitDescription from '../../src/components/VisitDescription.js';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ConfirmarVisita({ route }) {
-    const { visita_V } = route.params;
+    const { visita_V } = route.params || {};
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
     const [selectedHour, setSelectedHour] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
+
+    if (!visita_V) {
+        return <Text>Error: visita_V no está definido</Text>;
+    }
 
     // Asegurarse de que las fechas tengan ceros delante de los números de un solo dígito en el día
     useEffect(() => {
@@ -25,8 +29,6 @@ export default function ConfirmarVisita({ route }) {
         });
         visita_V.availability = availabilityWithPaddedDates;
     }, [visita_V.availability]);
-
-    console.log("Lo que le llega al ConfirmarVisita " + JSON.stringify(visita_V.availability));
 
     const handleDayPress = (day) => {
         const availabilityForSelectedDate = visita_V.availability.find(item => item.day === day.dateString);
@@ -61,7 +63,6 @@ export default function ConfirmarVisita({ route }) {
     const customDates = visita_V.availability.reduce((acc, item) => {
         if (item && item.day) {
             const paddedDay = item.day.split('-').map(part => part.padStart(2, '0')).join('-');
-            console.log("Dia " + paddedDay);
             acc[paddedDay] = { selected: true, marked: false, selectedColor: '#0B7BFF' };
         }
         return acc;
@@ -128,7 +129,7 @@ export default function ConfirmarVisita({ route }) {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.modalButton} onPress={() => {
                             closeModal();
-                            navigation.navigate('PagarVisita', { visita_V, selectedDate, selectedHour });
+                            navigation.navigate('PagarVisita', { visita_V, selectedDate, selectedHour, id: visita_V.id});
                         }}>
                             <Text>Pagar</Text>
                         </TouchableOpacity>

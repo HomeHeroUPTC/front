@@ -3,8 +3,7 @@ import { View, StyleSheet, ScrollView, ActivityIndicator, Text, Modal } from 're
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import PlantDescripcionBtn from "../../src/components/PlantDescripcionBtn";
-import { NavigationProp } from '@react-navigation/native';
-import { RouteProp } from '@react-navigation/native';
+import { NavigationProp, useIsFocused } from '@react-navigation/native';
 import Footer from '../../src/components/FooterHero';
 import DetallesVisita from './DetallesVisitas';
 
@@ -22,6 +21,7 @@ interface RouteProps {
 interface HeroData {
     name: string;
     image_url: string;
+    id: string;
 }
 
 function convertirJsonAObjetos(data) {
@@ -34,7 +34,10 @@ function convertirJsonAObjetos(data) {
         visitDate: item.visit_date,
         initTime: item.init_time,
         address: item.address,
-        visitStatus: item.visit_status
+        visitStatus: item.visit_status,
+        clientName: item.client_name,
+        nombreServiceProfesional: item.service_name,
+        service_id: item.service_id
     }));
 }
 
@@ -45,7 +48,8 @@ export default function Visitas({ navigation, route }: RouteProps) {
     const [error, setError] = useState(null);
     const [selectedVisit, setSelectedVisit] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
-    const [reloadData, setReloadData] = useState(false); // Nuevo estado para recargar los datos
+    const [reloadData, setReloadData] = useState(false); 
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         const fetchHeroDataFromStorage = async () => {
@@ -59,26 +63,34 @@ export default function Visitas({ navigation, route }: RouteProps) {
                 console.error('Error al obtener los datos del héroe desde AsyncStorage:', error);
             }
         };
+        
         fetchHeroDataFromStorage();
+    }, []);
 
-        // Función para cargar los datos de las visitas
+    useEffect(() => {
+        if (!heroData) {
+            return;
+        }
+
         const loadVisitsData = async () => {
-            setLoading(true); // Indica que estamos cargando los datos
+            setLoading(true);
             try {
-                const response = await fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=3');
+                const response = await fetch(`https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/GetHeroVisits?hero_id=${heroData.id}`);
                 const data = await response.json();
                 const objetosConvertidos = convertirJsonAObjetos(data);
                 setPlantDescriptions(objetosConvertidos);
-                setLoading(false); // Indica que hemos terminado de cargar los datos
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError(error);
-                setLoading(false); // Indica que hemos terminado de cargar los datos (incluso si hubo un error)
+                setLoading(false);
             }
         };
 
-        loadVisitsData(); // Cargar los datos de las visitas al montar el componente
-    }, [reloadData]); // Dependencia de reloadData
+        if (isFocused) {
+            loadVisitsData();
+        }
+    }, [heroData, isFocused, reloadData]);
 
     if (loading) {
         return (
@@ -103,11 +115,12 @@ export default function Visitas({ navigation, route }: RouteProps) {
                     <View style={styles.body}>
                         <View style={styles.info}>
                             <Text style={styles.errorText}>
-                                Ha ocurrido un error al cargar las visitas. Por favor, inténtalo de nuevo más tarde.
+                                Por ahora no tienes visitas.
                             </Text>
                         </View>
                     </View>
                 </ScrollView>
+                <Footer />
             </View>
         );
     }
@@ -126,8 +139,8 @@ export default function Visitas({ navigation, route }: RouteProps) {
                 <View style={styles.body}>
                     {plantDescriptions.map((plant, index) => (
                         <PlantDescripcionBtn
-                            image_url={"https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/pintura.jpg?alt=media&token=537682ed-1de1-4765-86a3-045d81143a8c"}
                             key={index}
+                            image_url={plant.image_url}
                             clientName={plant.clientName}
                             clientId={plant.clientId}
                             initTime={plant.initTime}
@@ -137,6 +150,7 @@ export default function Visitas({ navigation, route }: RouteProps) {
                             nombreServiceProfesional={plant.nombreServiceProfesional}
                             address={plant.address}
                             estado={plant.visitStatus}
+                            service_id={plant.service_id}
                             onPress={() => {
                                 setSelectedVisit(plant);
                                 setModalVisible(true);
@@ -161,7 +175,7 @@ export default function Visitas({ navigation, route }: RouteProps) {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
       width: '100%',
       height: '100%',
       backgroundColor: '#fff',
@@ -169,16 +183,16 @@ const styles = StyleSheet.create({
     scrollContainer: {
       backgroundColor: '#fff',
     },
-    header:{
+    header: {
       height: 50,
       backgroundColor: '#fff',
     },
-    body:{
+    body: {
       paddingBottom: 80,
       justifyContent: 'center'
     },
-    info:{
-      marginTop:20,
+    info: {
+      marginTop: 20,
     },
     loadingContainer: {
       flex: 1,

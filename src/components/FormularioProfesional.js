@@ -27,6 +27,24 @@ const FormularioProfesional = () => {
     const days = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
     const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
+    
+    function ordenarDias(texto) {
+        // Convertimos la entrada a una cadena de texto
+        texto = texto.toString();
+        
+        // Convertimos la cadena de texto a un array de días separando por comas y eliminando espacios
+        const diasArray = texto.split(',').map(dia => dia.trim());
+        
+        // Ordenamos los días de la semana utilizando la posición en el array 'days'
+        const diasOrdenados = diasArray.sort((a, b) => {
+            return days.indexOf(a) - days.indexOf(b);
+        });
+        
+        // Devolvemos los días ordenados como una cadena de texto separada por comas
+        return diasOrdenados.join(',');
+    }
+    
+
     const toggleDaySelection = (day) => {
         setSelectedDays((prevSelectedDays) => 
             prevSelectedDays.includes(day) 
@@ -60,6 +78,18 @@ const FormularioProfesional = () => {
         }
 
         const nuevoProfesional = {
+<<<<<<< HEAD
+            name: nombre.toString(),
+            email: userEmail.toString(),
+            identification: id.toString(),
+            job: selectedProfesion.toString(),
+            city: selectedCity.toString(),
+            address: direccion.toString(),
+            neighborhood: barrio.toString(),
+            work_days: ordenarDias(selectedDays),
+            init_hour: convertirHoraAMPMa24(startTime.toLocaleTimeString([], { hour: '2-digit', hour12: true })),
+            end_hour: convertirHoraAMPMa24(endTime.toLocaleTimeString([], { hour: '2-digit', hour12: true })),
+=======
             name: nombre,
             email: userEmail,
             identification: id,
@@ -69,6 +99,7 @@ const FormularioProfesional = () => {
             neighborhood: barrio,
             start_time: convertirHoraAMPMa24(startTime.toLocaleTimeString([], { hour: '2-digit', hour12: true })),
             end_time: convertirHoraAMPMa24(endTime.toLocaleTimeString([], { hour: '2-digit', hour12: true })),
+>>>>>>> b4a6494176aa02f173cfd56a2f092d3db8c05b1a
             image_url: "https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/lego-logo-512.png?alt=media&token=b78d7c8d-0029-46f4-bcd4-bf0c328c1de7",
             work_days: selectedDays.join(''),
             init_hour: startTimeHours,
@@ -386,7 +417,7 @@ marginBottom: 10,
 textAlign: 'center',
 },
 timePickerButton: {
-backgroundColor: '#90EE90',
+backgroundColor: '#16DD3D',
 padding: 15,
 borderRadius: 8,
 alignItems: 'center',

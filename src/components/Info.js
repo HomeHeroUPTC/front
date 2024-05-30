@@ -9,7 +9,8 @@ const Info = ({ servicio, cliente }) => {
     navigation.navigate('ProfesionalesDelServicio', {
       id: servicio.service_id,
       service_type: servicio.title, 
-      cliente: cliente
+      cliente: cliente,
+      service_image: servicio.image_url
     });
     console.log(servicio.service_id)
   };

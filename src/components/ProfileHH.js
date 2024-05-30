@@ -9,20 +9,22 @@ const ProfileHH = ({ profesional, cliente }) => {
 
     const fechasDisponibles = profesional.availability.map(item => item.day);
 
+    console.log("hero sercice id " + profesional.hero_service_id)
+
     const handlePress = () => {
         // Crear el objeto visita
         const visita_V = {
             type_service: profesional.service_type,
             service_id: profesional.service_id,
+            hero_service_id: profesional.hero_service_id,
             id: profesional.id,
             hero_name: profesional.hero_name,
             price: profesional.price,
             availability: profesional.availability,
+            service_name: profesional.service_type,
+            image_url: profesional.service_image,
             cliente: cliente
         };
-
-        console.log(visita_V)
-
         navigation.navigate('ConfirmarVisita', { visita_V });
     };
 

@@ -1,230 +1,187 @@
-import React,  { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, Button, TouchableHighlight } from "react-native";
 import HeaderProfile from "../../src/components/HeaderProfile";
 import Footer from "../../src/components/FooterHero";
 import CustomTextInput from "../../src/components/TextInput";
-import CustomPicker from "../../src/components/ComboBox";
-import DatePickerComponent from "../../src/components/calendario";
 import DateInput from "../../src/components/calendario";
-import TimePicker from "../../src/components/horaslista";
 import HourList from "../../src/components/horaslista";
 import { useRole } from "../../src/components/utils/verificarcorreo";
+import { useRoute } from "@react-navigation/native";
+import { Calendar } from 'react-native-calendars';
 
 const CrearCotizaciones = () => {
-    const {role,setRoleFromEmail} = useRole();
-    const [nameService, setNameService] = useState('');
+    const { role } = useRole();
+    const route = useRoute();
+    const { visit_id, hero_id, service_id, client_id, address, client_name, service_name } = route.params;
+
+    const [tipoServicio, setTipoServicio] = useState(service_name);
     const [nameCL, setNameCL] = useState('');
-    const [hora, setHora] = useState('');
-    const [name, setName] = useState('');
-    const [TipoServico, setTiposervicio] = useState('');
-    const [direccion, setdireccion] = useState('');
-    const [barrio, setBarrio] = useState('');
-    const [id, setId] = useState(5);
-    const [price, setPrice] = useState('');
-    const [descripcion, setDescription] = useState('');
+    const [direccion, setDireccion] = useState(address);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [selectedOption, setSelectedOption] = useState('');
-    const [selectedDate, setSelectedDate] = useState(new Date());
-
-
-
-    const formatDate=(text) =>{
-        const fechaString = '5/22/2024';
-        const partesFecha = fechaString.split('/'); // Dividir la cadena por '/'
-        const mes = parseInt(partesFecha[0]) - 1; // Restar 1 porque los meses en JavaScript van de 0 a 11
-        const dia = parseInt(partesFecha[1]);
-        const año = parseInt(partesFecha[2]);
-        const fecha = new Date(año, mes, dia); // Crear objeto Date
-
-        setSelectedDate(fecha);
-    };
+    const [price, setPrice] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [heroServices, setHeroServices] = useState([]);
 
     useEffect(() => {
-        const personData = [{
-            id: 1,
-            cliente: 'LPZ',
-            HH: 'Mortadelo',
-            Nombre_Servicio: 'Trabajos de la Unad',
-            Tipo_servicio: 'Educacion',
-            direccion: 'Uptc',
-            barrio: 'JJ camacho',
-            fecha: '5/22/2024',
-            hora: '06',
-            precio: '123123',
-            Descripcion: 'arg asrg ahfoanñ'
-        }];
+        setTipoServicio(service_id.toString());
+        setNameCL(client_id.toString());
 
-    
-        const person = personData[0];
-        setNameService(person.Nombre_Servicio);
-        setName(person.HH);
-        setNameCL(person.cliente);
-        setTiposervicio(person.Tipo_servicio);
-        setdireccion(person.direccion);
-        setBarrio(person.barrio);
-        setId(person.id);
-        setPrice(person.precio);
-        setDescription(person.Descripcion);
-        formatDate(person.fecha);
-        setHora(person.hora)
-}, []);
+        // Fetch para obtener los servicios relacionados con el hero_id
+        fetch(`https://msservice-zaewler4iq-uc.a.run.app/Services/GetHeroServices?service_id=${hero_id}`)
+            .then(response => response.json())
+            .then(data => {
+                setHeroServices(data); // Guardar los servicios obtenidos en el estado como un objeto
+            })
+            .catch(error => console.error('Error fetching hero services:', error));
+    }, []);
 
+    useEffect(() => {
+        if (heroServices.length > 0) {
+            // Asegurarse de que las fechas tengan ceros delante de los números de un solo dígito en el día
+            const heroServicesWithPaddedDates = heroServices.map(heroService => {
+                const availabilityWithPaddedDates = heroService.availability.map(item => {
+                    if (item && item.day) {
+                        const paddedDay = item.day.split('-').map(part => part.padStart(2, '0')).join('-');
+                        return { ...item, day: paddedDay };
+                    }
+                    return item;
+                });
+                return { ...heroService, availability: availabilityWithPaddedDates };
+            });
+            setHeroServices(heroServicesWithPaddedDates);
+        }
+    }, [heroServices]);
 
-    const options = ['00', '01', '02', '03','04','05','06','07','08','09',
-                    '10', '11', '12', '13','14','15','16','17','18','19',
-    '20', '21', '22', '23','24'
-    ];
-   
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+    const handleDateChange = (date) => {
+        setSelectedDate(date.dateString);
+    };
 
     const handlePress = () => {
         if (descripcion.length <= 50 && descripcion.length >= 1) {
             alert('Su descripcion debe de tener 50 caracteres')
-        } else if (name.length === 0) {
-            alert('El Nombre no puede ir vacio')
-        } else if (selectedOption === '') {
-            alert('Debe de seleccionar un tipo de servicio')
-        } else if (price.length == 0) {
-            alert('Debe de ingresar un precio de visita')
-        } else if (descripcion.length === 0) {
-            console.log(convertToJson())
-            alert('Descripcion base de datos')
+        } else if (nameCL.length === 0) {
+            alert('El Nombre del cliente no puede ir vacío')
+        } else if (tipoServicio === '') {
+            alert('Debe seleccionar un tipo de servicio')
+        } else if (price.length === 0) {
+            alert('Debe ingresar un precio de visita')
         } else {
             console.log(convertToJson())
         }
-
     };
 
     const convertToJson = () => {
         const data = {
-            name: name,
+            name: nameCL,
+            tipoServicio: tipoServicio,
             price: parseInt(price),
             descripcion: descripcion,
-            hero_id: id
+            hero_id: hero_id
         };
 
         return JSON.stringify(data);
     };
 
-   
-    const handleSetHora=(text)=>{
+    const handleSetHora = (text) => {
         setSelectedOption(text);
     }
 
     const handlePriceChange = (text) => {
         const regex = /^[0-9]*$/;
         if (regex.test(text) && text.length <= 6) {
-            setPrice((text));
+            setPrice(text);
         }
     };
 
     const handleDescriptionChange = (text) => {
         if (text.length <= 120) {
-            setDescription(text);
+            setDescripcion(text);
         }
     };
 
-    const saveData =()=>{
-        
-    }
+    const options = [
+        '00', '01', '02', '03', '04', '05', '06', '07', '08', '09',
+        '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+        '20', '21', '22', '23', '24'
+    ];
 
-    if(role === 'homehero'){
-        return (
-            <View style={styles.container}>
-                <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    <View style={styles.headerContainer}>
-                        <HeaderProfile
-                            username={'Sebas'}
-                            companyName={'HomeHero'}
-                            description={'papapa'}
-                            userImage={'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400'}
-                        />
-                    </View>
-                    <Text style={styles.title}>Crear Cotización</Text>
-                    <CustomTextInput
-                        label="Nombre del cliente"
-                        placeholder= {name}
-                        onChangeText={null}
-                        value={name}
-                    />
-                    <CustomTextInput
-                        label="Nombre del servicio"
-                        placeholder="Ingresa el nombre del servicio"
-                        onChangeText={null}
-                        value={name}
-                    />
-                    <CustomTextInput
-                        label="Tipo de Servicio"
-                        placeholder="Ingresa el nombre del servicio"
-                        onChangeText={null}
-                        value={name}
-                    />
-                    <CustomTextInput
-                        label="Direccion "
-                        placeholder="Ingresa el nombre del servicio"
-                        onChangeText={null}
-                        value={name}
-                    />
-    
-                    <CustomTextInput
-                        label="Barrio"
-                        placeholder="Ingresa el nombre del servicio"
-                        onChangeText={null}
-                        value={name}
-                    />
-                    <View style={styles.dateTimeContainer}>
-                        <View style={styles.datePickerContainer}>
-                            <DateInput
-                                label="Selecciona una fecha"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                            />
-                        </View>
-                        <View style={styles.timePickerContainer}>
-                            <HourList
-                                label="Hora"
-                                options={options}
-                                selectedValue={selectedOption}
-                                onValueChange={handleSetHora}
-                            />
-                        </View>
-                    </View>
-    
-                    <CustomTextInput
-                        label="Precio de visita"
-                        placeholder="Ingresa el precio de tu visita (Valores numericos)"
-                        onChangeText={handlePriceChange}
-                        value={price}
-                    />
-                    <CustomTextInput
-                        label="Descripción"
-                        placeholder="Ingresa los detalles del servicio"
-                        onChangeText={handleDescriptionChange}
-                        value={descripcion} // Aplicar estilo específico para la descripción
-                    />
-                </ScrollView>
-                <View style={styles.buttonContainer}>
-                    <Button
-                        title="Guardar"
-                        onPress={handlePress}
+    return (
+        <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.headerContainer}>
+                    <HeaderProfile
+                        username={'Sebas'}
+                        companyName={'HomeHero'}
+                        description={'papapa'}
+                        userImage={'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400'}
                     />
                 </View>
-                <View style={styles.footerContainer}>
-                    <Footer />
-                </View>
+                <Text style={styles.title}>Crear Cotización</Text>
+                <CustomTextInput
+                    label="Nombre del cliente"
+                    placeholder="Nombre del cliente"
+                    value={client_name} // Pasa directamente el valor
+                    editable={false} // Establece editable como false
+                />
+                <CustomTextInput
+                    label="Tipo de Servicio"
+                    placeholder="Tipo de Servicio"
+                    value={service_name} // Pasa directamente el valor
+                    editable={false} // Establece editable como false
+                />
+                <CustomTextInput
+                    label="Dirección"
+                    placeholder="Dirección"
+                    value={address} // Pasa directamente el valor
+                    editable={false} // Establece editable como false
+                />
+                <Calendar
+                    onDayPress={handleDateChange}
+                    markedDates={generateMarkedDates(heroServices)}
+                />
+                <HourList
+                    label="Hora"
+                    options={options}
+                    selectedValue={selectedOption}
+                    onValueChange={handleSetHora}
+                />
+                <CustomTextInput
+                    label="Precio de visita"
+                    placeholder="Precio del servicio"
+                    onChangeText={handlePriceChange}
+                    value={price}
+                />
+                <CustomTextInput
+                    label="Descripción"
+                    placeholder="Descripción"
+                    onChangeText={handleDescriptionChange}
+                    value={descripcion}
+                />
+            </ScrollView>
+            <View style={styles.buttonContainer}>
+                <TouchableHighlight
+                    style={styles.button}
+                    onPress={handlePress}
+                    underlayColor="#0A5DCB" // Color de fondo cuando se presiona
+                >
+                    <Text style={styles.buttonText}>Guardar</Text>
+                </TouchableHighlight>
             </View>
-        );
-    }
+            <View style={styles.footerContainer}>
+                <Footer />
+            </View>
+        </View>
+    );
 
-    if(role === 'cliente'){
-        return(
-            <View>
-                <Text>Usted no tiene autorizacion para realizar esta accion </Text>
-            </View>
-        )
-        
+    function generateMarkedDates(heroServices) {
+        const markedDates = {};
+        heroServices.forEach(service => {
+            service.availability.forEach(avail => {
+                markedDates[avail.day] = { marked: true };
+            });
+        });
+        return markedDates;
     }
 }
 
@@ -235,33 +192,32 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         paddingHorizontal: 20,
-        paddingBottom: 20, // Ajustar el padding inferior para evitar que el botón se pegue al final
+        paddingBottom: 20,
     },
-    headerContainer: {
+    headerContainer:
+    {
         marginBottom: 20,
     },
     title: {
         fontSize: 24,
         marginBottom: 20,
     },
-    dateTimeContainer: {
-        flexDirection: 'row', // Coloca los elementos en una fila
-        marginBottom: 20, // Ajusta el margen inferior entre los elementos
-    },
-    datePickerContainer: {
-        flex: 1, // Ocupa el espacio disponible en la fila
-        marginRight: 10, // Añade un margen derecho para separar los elementos
-    },
-    timePickerContainer: {
-        flex: 1, // Ocupa el espacio disponible en la fila
-        marginLeft: 10, // Añade un margen izquierdo para separar los elementos
-    },
     buttonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%', // Añadir padding horizontal para que el botón no esté pegado a los bordes
-        marginBottom: 80, // Ajustar el margen inferior
-
+        width: '100%',
+        marginBottom: 20,
+    },
+    button: {
+        backgroundColor: '#0B7BFF',
+        paddingVertical: 15,
+        paddingHorizontal: 40,
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     footerContainer: {
         height: 60,
