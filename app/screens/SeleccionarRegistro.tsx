@@ -1,23 +1,24 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 interface RouteProps {
     navigation: NavigationProp<any, any>;
 }
 
 const SelectProfile = ({navigation}:RouteProps) => {
+    const navigate = useNavigation();
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Seleccione el tipo de rol que desea</Text>
             <View style={styles.buttonContainer}>
                 <Button
                     title="Heroe del Hogar (HH)"
-                    onPress={() => navigation.navigate('FormularioProfesional')}
+                    onPress={() => navigate.replace('FormularioProfesional')}
                     color="#6200EE"
                 />
                 <Button
                     title="Cliente"
-                    onPress={() => navigation.navigate('FormularioCliente')}
+                    onPress={() => navigation.replace('FormularioCliente')}
                     color="#6200EE"
                 />
             </View>

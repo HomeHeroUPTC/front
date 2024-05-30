@@ -23,6 +23,7 @@ const FormularioProfesional = () => {
     const { userEmail, setUserEmail } = useAuth();
     const [servicios, setServicios] = useState([]);
 
+        
     const days = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
     const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -66,10 +67,12 @@ const FormularioProfesional = () => {
             city: selectedCity,
             address: direccion,
             neighborhood: barrio,
-            workdays: selectedDays.join(''),
             start_time: convertirHoraAMPMa24(startTime.toLocaleTimeString([], { hour: '2-digit', hour12: true })),
             end_time: convertirHoraAMPMa24(endTime.toLocaleTimeString([], { hour: '2-digit', hour12: true })),
             image_url: "https://firebasestorage.googleapis.com/v0/b/homehero-417119.appspot.com/o/lego-logo-512.png?alt=media&token=b78d7c8d-0029-46f4-bcd4-bf0c328c1de7",
+            work_days: selectedDays.join(''),
+            init_hour: startTimeHours,
+            end_hour: endTimeHours,
         };
 
         console.log(nuevoProfesional)
@@ -89,7 +92,8 @@ const FormularioProfesional = () => {
 
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
-                    navigation.navigate('HomeHH');
+                    navigation.replace('HomeHH');
+                    Alert.alert('HomeHero creado correctamente')
                 }
 
                 return response.json();
@@ -98,8 +102,8 @@ const FormularioProfesional = () => {
                 console.log('Cliente registrado:', data);
             })
             .catch(error => {
-                console.error('Error:', error);
-                Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
+            //    console.error('Error:', error);
+            //Alert.alert('Error al registrarse', 'Por favor revise que sus datos sean correctos');
             });
 
         console.log('Registrando profesional:', nuevoProfesional);
