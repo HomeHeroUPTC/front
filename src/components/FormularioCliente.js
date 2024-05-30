@@ -48,7 +48,7 @@ const navigation = useNavigation();
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
                     // La respuesta no es JSON
-                    navigation.navigate('HomeCliente');
+                    navigation.replace('HomeCliente');
                     Alert.alert('Cliente creado correctamente')
                 }
             

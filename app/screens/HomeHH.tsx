@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, BackHandler, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, CommonActions } from '@react-navigation/native';
 import { useAuth } from '../../src/components/utils/correo';
 import ServiciosHH from '../../src/components/ServiciosHome';
 import RoundButton from '../../src/components/ButonAdd';
@@ -16,6 +16,7 @@ export default function HomeHH({ navigation }: RouteProps) {
     const { userEmail } = useAuth();
     const [serviciosData, setServiciosData] = useState([]);
     const [heroData, setHeroData] = useState(null);
+    
 
     useEffect(() => {
         const fetchHeroData = async () => {

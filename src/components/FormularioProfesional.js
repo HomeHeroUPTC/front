@@ -23,6 +23,7 @@ const FormularioProfesional = () => {
     const { userEmail, setUserEmail } = useAuth();
     const [servicios, setServicios] = useState([]);
 
+        
     const days = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
     const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -91,7 +92,7 @@ const FormularioProfesional = () => {
 
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
-                    navigation.navigate('HomeHH');
+                    navigation.replace('HomeHH');
                     Alert.alert('HomeHero creado correctamente')
                 }
 
