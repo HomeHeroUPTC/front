@@ -36,8 +36,10 @@ const Login = ({navigation}: RouteProps) => {
     const navigateToScreen = async () => {
         const role = await getRole(email);
         if (role === 'cliente') {
+            setRoleFromEmail(role)
             navigation.navigate('HomeCliente', { correo: email });
         } else if (role === 'homehero') {
+            setRoleFromEmail(role)
             navigation.navigate('HomeHH');
         } else {
             navigation.navigate('SeleccionPerfil');

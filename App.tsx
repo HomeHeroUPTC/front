@@ -23,6 +23,7 @@ import VisitasProfesionales from "./app/screens/VistasProfesional";
 import CrearCotizaciones from "./app/screens/CrearCotizaciones";
 import SelectProfile from "./app/screens/SeleccionarRegistro";
 import { HeroProvider } from "./src/components/utils/Hero";
+import Agenda from "./app/screens/Agenda";
 
 
 const Stack = createNativeStackNavigator();
@@ -47,6 +48,7 @@ function InsideLayout() {
             <InsideStack.Screen name="VisitaProfesional" component={VisitasProfesionales}/>
             <InsideStack.Screen name="CrearCotizaciones" component={CrearCotizaciones}/>
             <InsideStack.Screen name="SeleccionPerfil" component={SelectProfile}/>
+            <InsideStack.Screen name="Agenda" component={Agenda}/>
         </InsideStack.Navigator>
     )
 }

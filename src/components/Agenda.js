@@ -1,64 +1,68 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import BlueButton from "./Button";
 
-const Agenda = () => {
+const AgendaComponente = ({ nombre, descripcion, fecha, hora }) => {
     return (
-        <View>
-            <View style={styles.info}>
-                <Image
-                    style={styles.image}
-                    source={{ uri: 'https://todoparalaindustria.com/cdn/shop/articles/herramientas-carpintero-madera.png?v=1683036808&width=1400' }}
-                />
-                <Text style={styles.text}>
-                    El trabajo de carpintería implica realizar una visita al sitio del proyecto para evaluar el espacio, discutir requisitos del cliente, tomar medidas precisas y ofrecer recomendaciones. Esta visita es crucial para comprender las necesidades del cliente, garantizar la viabilidad del proyecto y proporcionar un presupuesto preciso.</Text>
-            </View >
-            <View style={styles.conteiner}>
-            <View style={styles.buttomCancelar}>
-                <BlueButton
-                    text={"Modificar"}
-                    style={styles.buttomCancelar}
-                />
+        <View style={styles.container}>
+            <View style={styles.row}>
+                <View style={[styles.column, styles.columnWithLessSpace]}>
+                    <Text style={styles.value}>{fecha}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={[styles.value, styles.descriptionValue]}>{descripcion}</Text>
+                </View>
             </View>
-            <View style={styles.buttomCancelar}>
-                <BlueButton
-
-                    text={"Modificar"}
-                />
-            </View>
+            <View style={[styles.row, styles.rowWithLessSpace]}>
+                <View style={[styles.column, styles.columnWithLessSpace]}>
+                    <Text style={styles.value}>{hora}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.value}>{nombre}</Text>
+                </View>
             </View>
             <BlueButton
                 text={"Modificar"}
+                style={styles.button}
             />
         </View>
     )
 };
 
 const styles = StyleSheet.create({
-    info: {
+    container: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        marginVertical: 10,
+        elevation: 2,
+    },
+    row: {
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'space-between',
         marginBottom: 10,
     },
-    image: {
-        width: 150,
-        height: 150,
-        margin: 10,
+    rowWithLessSpace: {
+        marginBottom: 5,
     },
-    text: {
-        width: 250,
-        height: 150,
-        alignItems: 'center',
+    column: {
+        flex: 1,
     },
-    buttomCancelar: {
-        margin: 2,
-        width: 200,
-        height: 60,
+    columnWithLessSpace: {
+        marginRight: 10, // Reducir el espacio entre las columnas
+        marginLeft: 10, // Reducir el espacio entre las columnas
     },
-    conteiner:{
-        flexDirection:'row',
-        justifyContent:'center',
-    }
-})
+    value: {
+        fontSize: 16,
+        color: '#666',
+    },
+    descriptionValue: {
+        fontStyle: 'italic',
+        color: 'blue',
+    },
+    button: {
+        marginTop: 20,
+    },
+});
 
-export default Agenda;
+export default AgendaComponente;
