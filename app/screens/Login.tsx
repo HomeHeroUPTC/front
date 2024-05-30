@@ -10,18 +10,6 @@ interface RouteProps {
     navigation: NavigationProp<any, any>;
 }
 
-const getRoleFromEmail = (email) => {
-    const domain = email.split('@')[1];
-    if (domain === 'gmail.com') {
-        return 'cliente';
-    } else if (domain === 'hotmail.com') {
-        return 'cliente';
-    } else if (domain === 'hotmail.com') {
-        return 'homehero';
-    } else {
-        return 'cliente';
-    }
-};
 
 const Login = ({navigation}: RouteProps) => {
     const [email, setEmail] = useState('');
