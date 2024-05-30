@@ -13,6 +13,7 @@ const CustomTextInput = ({ label, placeholder, onChangeText, value }) => {
         placeholder={placeholder}
         onChangeText={onChangeText}
         value={value}
+        multiline={true}
       />
     </View>
   );

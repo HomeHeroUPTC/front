@@ -32,12 +32,27 @@ export default function HomeHH({ navigation }: RouteProps) {
             }
         };
         fetchHeroData();
+        const fetchServiciosData = async () => {
+            try {
+                const response = await fetch(`https://msservice-zaewler4iq-uc.a.run.app/Services/GetHeroServices?service_id=${heroData.id}`);
+                const data = await response.json();
+                setServiciosData(data);
+
+                // Guardar datos en AsyncStorage
+                await AsyncStorage.setItem('serviciosData', JSON.stringify(data));
+            } catch (error) {
+                console.error('Error al obtener los servicios del héroe:', error);
+            }
+        };
+        fetchServiciosData();
+        console.log(serviciosData);
     }, [userEmail]);
+    
 
     const agregarServicio = () => {
         // Función para agregar un nuevo servicio (código omitido para brevedad)
     };
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -51,7 +66,15 @@ export default function HomeHH({ navigation }: RouteProps) {
                 )}
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                {/* Código para mostrar los servicios (omitiendo por brevedad) */}
+            {serviciosData.length > 0 ? (
+                // Si hay datos de servicios, mostrarlos
+                serviciosData.map((servicio, index) => (
+                    <Text>hola</Text>
+                ))
+            ) : (
+                // Si no hay datos de servicios, mostrar el mensaje correspondiente
+                <Text style={styles.noServicesText}>Datos no disponibles</Text>
+            )}
             </ScrollView>
             <RoundButton onPress={() => navigation.navigate('RegistrarServicios')} />
             <Footer />
