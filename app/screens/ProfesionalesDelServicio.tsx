@@ -3,10 +3,10 @@ import { View, StyleSheet, Alert, ScrollView, ActivityIndicator, Text, Touchable
 import HeaderProfile from '../../src/components/HeaderProfile.js';
 import ProfileHH from '../../src/components/ProfileHH.js';
 import Footer from '../../src/components/FooterClient.js';
-import ProfileDetailModal from '../../src/components/ProfileDetailModal .js';
+import ProfileDetailModal from '../../src/components/ProfileDetailModal .js'
 
 const FeedHHClient = ({ route }) => {
-  const { id: service_id, service_type , cliente} = route.params;
+  const { id: service_id, service_type , cliente } = route.params;
   const [profesionales, setProfesionales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,7 +31,7 @@ const FeedHHClient = ({ route }) => {
         if (Array.isArray(data)) {
           const profesionalesWithServiceId = data.map(profesional => ({
             ...profesional,
-            service_id: service_id,// Agregando la propiedad service_id
+            service_id: service_id,
             service_type: service_type
           }));
           setProfesionales(profesionalesWithServiceId);
@@ -41,10 +41,10 @@ const FeedHHClient = ({ route }) => {
         setLoading(false);
       })
       .catch(error => {
-        setError(error);
+        setError(error.message || 'Unexpected error');
         setLoading(false);
       });
-  }, [service_id]);
+  }, [service_id, service_type]);
 
   const handlePress = (profesional) => {
     setSelectedProfesional(profesional);
@@ -71,8 +71,8 @@ const FeedHHClient = ({ route }) => {
           <View style={styles.header}>
             <HeaderProfile 
               companyName={'Home Hero'}
-              userImage={cliente.url_img}
-              username={cliente.name}
+              userImage={cliente.image_url}
+              username={cliente.name} // Aquí se muestra solo el primer nombre
               description={"Profesionales"}
             />
           </View>
@@ -98,7 +98,7 @@ const FeedHHClient = ({ route }) => {
           <HeaderProfile 
             companyName='Home Hero'
             userImage={cliente.image_url}
-            username={cliente.name}
+            username={cliente.name.split(' ')[0]} // Aquí se muestra solo el primer nombre
             description={"Profesionales"}
           />
         </View>
