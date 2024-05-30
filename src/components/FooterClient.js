@@ -9,12 +9,17 @@ const FooterClient = ({cliente}) => {
     return (
         <View style={styles.container}>
             <View style={styles.iconButton}>
+                <TouchableOpacity  style={styles.iconButton} onPress={() => 
+                    navigation.navigate("AgendaCliente",  { correo: ""})
+                }>
                 <Image
                     style={styles.image}
                     source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
                 />
 
                 <Text style={styles.text}>Agenda</Text>
+                </TouchableOpacity>
+                
             </View>
             <View style={styles.iconButton}>
                 <Image
