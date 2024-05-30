@@ -32,7 +32,7 @@ const FooterHero = () => {
 
 
     const handlePressAgenda = () => {
-            navigation.navigate('Agenda', { id_client: heroData.id });
+        navigation.navigate('Agenda', { id_client: heroData.id });
     };
 
     const handlePressHistorial = () => {
@@ -57,7 +57,6 @@ const FooterHero = () => {
                     source={{ uri: 'https://img.icons8.com/ios-filled/100/000000/calendar--v1.png' }}
                     
                 />
-
                 <Text style={styles.text}>Agenda</Text>
                 </TouchableOpacity>
             </View>
@@ -81,7 +80,7 @@ const FooterHero = () => {
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/receipt-dollar.png'}}
                 />
                 <Text style={styles.text}>Cotizaciones</Text>
-                </TouchableOpacity>
+                
             </View>
             <TouchableOpacity style={styles.iconButton} onPress={handlePressVisitas}>
                 <Image
@@ -90,10 +89,7 @@ const FooterHero = () => {
                 />
                 <Text style={styles.text}>Visitas</Text>
             </TouchableOpacity>
-
-
-
-        </View>
+        </View >
     );
 };
 
