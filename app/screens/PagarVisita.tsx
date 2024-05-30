@@ -1,6 +1,5 @@
-import React from 'react';
-import { useState } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Modal } from 'react-native';
 import Footer from '../../src/components/FooterClient';
 import HeaderProfile from '../../src/components/HeaderProfile';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -10,75 +9,20 @@ export default function PagarVisita() {
     const navigation = useNavigation();
     const route = useRoute();
     const { visita_V, selectedDate, selectedHour } = route.params;
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handlePagar = () => {
-        console.log("Hora que se obtiene " + String(selectedHour));
-        const requestBody = {
-            hero_id: visita_V.id,
-            hero_service_id: visita_V.service_id,
-            client_id: visita_V.cliente.id,
-            visit_date: selectedDate,
-            init_time: convertToMilitaryTime(selectedHour),
-            address: visita_V.cliente.address
-        };
-        console.log("Hora en militar " + convertToMilitaryTime(selectedHour));
-        console.log("Request Body: ", requestBody);
-
-        fetch('https://mssolicitud-zaewler4iq-ue.a.run.app/Solicitudes/CreateVisit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody)
-        })
-        .then(response => {
-            console.log("Raw Response: ", response);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.text();
-        })
-        .then(responseText => {
-            if (!responseText) {
-                // Tratar como una respuesta OK
-                console.log('Respuesta vacía recibida, tratando como OK.');
-                navigation.navigate('HomeCliente', { correo: "" } as { correo: string });
-            } else {
-                const data = JSON.parse(responseText);
-                console.log('Respuesta del servidor:', data);
-                navigation.navigate('HomeCliente', { correo: "" } as { correo: string });
-            }
-        })
-        .catch(error => {
-            if (error instanceof SyntaxError && error.message === 'JSON Parse error: Unexpected end of input') {
-                // Tratar como una respuesta OK
-                console.log('Respuesta vacía recibida, tratando como OK.');
-                navigation.navigate('HomeCliente', { correo: "" } as { correo: string });
-            } else {
-                console.error('Error al enviar la solicitud:', error);
-            }
-        });
-    };
-
-    const convertToMilitaryTime = (timeString) => {
-        if (!/(AM|PM)/i.test(timeString)) {
-            throw new Error('Formato de hora incorrecto. Se esperaba HH:MM AM/PM');
-        }
-
-        const formattedTimeString = timeString.toUpperCase();
-        const timeParts = formattedTimeString.split(' ');
-        const period = timeParts[1];
-        const hours = parseInt(timeParts[0], 10);
-
-        if (period === 'AM') {
-            return hours;
-        } else {
-            return hours === 12 ? 12 : hours + 12;
-        }
+        setModalVisible(true);
+        // Aquí podrías realizar cualquier otra lógica relacionada con el pago si fuera necesario
     };
 
     const handleCancelar = () => {
-        navigation.navigate('HomeCliente', { correo: "" } as { correo: string });
+        navigation.navigate('HomeCliente', { correo: '' });
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+        navigation.navigate('HomeCliente', { correo: '' });
     };
 
     return (
@@ -94,7 +38,7 @@ export default function PagarVisita() {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <VisitDescription visita={visita_V} />
                 <Text style={styles.paragraph2}>
-                    {"\nDirección de la visita\n" + visita_V.cliente.address}
+                    {'\nDirección de la visita\n' + visita_V.cliente.address}
                 </Text>
                 {selectedDate && (
                     <Text style={styles.infoText}>Fecha seleccionada: {selectedDate}</Text>
@@ -102,21 +46,36 @@ export default function PagarVisita() {
                 {selectedHour && (
                     <Text style={styles.infoText}>Hora seleccionada: {selectedHour}</Text>
                 )}
-                <TouchableOpacity style={[styles.modalButton, styles.greenButton]} onPress={handlePagar}>
+                <TouchableOpacity style={[styles.button, styles.greenButton]} onPress={handlePagar}>
                     <Text style={styles.buttonText}>Pagar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.modalButton, styles.reedButton]} onPress={handleCancelar}>
+                <TouchableOpacity style={[styles.button, styles.redButton]} onPress={handleCancelar}>
                     <Text style={styles.buttonText}>Cancelar</Text>
                 </TouchableOpacity>
             </ScrollView>
             <Footer cliente={visita_V.cliente} />
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={closeModal}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>¡Pago realizado!</Text>
+                        <TouchableOpacity style={styles.modalButton} onPress={closeModal}>
+                            <Text style={styles.modalButtonText}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
         flex: 1,
     },
     header: {
@@ -128,40 +87,60 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 10,
     },
-    modalButton: {
+    button: {
         marginTop: 10,
-        padding: 10,
-        borderRadius: 5,
-        width: '80%',
+        paddingVertical: 15,
+        borderRadius: 10,
         alignItems: 'center',
-        left: '11%'
+        justifyContent: 'center',
     },
     greenButton: {
         backgroundColor: '#4CAF50',
     },
-    reedButton: {
+    redButton: {
         backgroundColor: '#FF0000',
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     infoText: {
         fontSize: 20,
         marginBottom: 10,
-        left: '4%'
     },
     paragraph2: {
         color: '#171717',
         fontSize: 20,
-        bottom: '6%',
-        marginLeft: '3%'
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
         marginBottom: 10,
-        paddingHorizontal: 10,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 15,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 24,
+        marginBottom: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalButton: {
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        backgroundColor: '#4CAF50',
+        borderRadius: 10,
+    },
+    modalButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
