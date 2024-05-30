@@ -1,80 +1,90 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from 'react-native';
+import BlueButton from "./Button";
 
-const PlantDescripcion = ({ imageUrl, title, description }) => {
+const AgendaComponente = ({ fecha, hora, descripcion, direccion, precio }) => {
+    // Función para convertir la fecha al formato deseado
+    const formatFecha = (fecha) => {
+        const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+        const [year, month, day] = fecha.split('-');
+        return `${parseInt(day, 10)} de ${meses[parseInt(month, 10) - 1]} del ${year}`;
+    };
+
+    // Función para convertir la hora al formato militar
+    const formatHora = (hora) => {
+        const [hour, minute] = hora.split(':');
+        return `${hour}:00`;
+    };
+
     return (
         <View style={styles.container}>
-            <View style={styles.contentContainer}>
-                <View style={styles.text}>
-                    <Text style={styles.title}>
-                        {title}
-                    </Text>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.image}
-                            source={{ uri: imageUrl }}
-                        />
-                    </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.description}>
-                            {description+'                                                              '}
-                        </Text>
-                    </View>
-
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <Text style={styles.title}>Fecha</Text>
+                    {/* Utilizamos la función formatFecha para mostrar la fecha en el formato deseado */}
+                    <Text style={styles.value}>{formatFecha(fecha)}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.title}>Descripción</Text>
+                    <Text style={[styles.value, styles.descriptionValue]}>{descripcion}</Text>
                 </View>
             </View>
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <Text style={styles.title}>Hora</Text>
+                    {/* Utilizamos la función formatHora para mostrar la hora en formato militar */}
+                    <Text style={styles.value}>{formatHora(hora)}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.title}>Dirección</Text>
+                    <Text style={styles.value}>{direccion}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.title}>Precio</Text>
+                    <Text style={styles.value}>{precio}</Text>
+                </View>
+            </View>
+            <BlueButton
+                text={"Modificar"}
+                style={styles.button}
+            />
         </View>
-    );
+    )
 };
 
 const styles = StyleSheet.create({
-    title: {
-        marginTop: 0, // Reducido el margen superior
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    text: {
-        marginTop: 0,
-        fontSize: 14,
-        alignSelf: 'center',
-        textAlign: "justify",
-    },
-    textContainer: {
-        textAlign: 'center',
-        alignItems: 'center', // Centers the text container horizontally
-        alignSelf: 'center',
-        width: '100%', // Ensures the text container takes up a portion of the width for better justification
-    },
-    imageContainer: {
-        marginTop: 15, // Eliminado el margen superior
-        alignSelf: 'center',
-        width: 300,
-        height: 200,
-        backgroundColor: '#f0f0f0', // Optional: for better visibility of the image area
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover', // Ensure the image covers the entire container
-    },
-    description: {
-        marginTop: 20,
-        alignSelf: 'center',
-        textAlign: 'justify', // Justifies the text within the container
-        paddingHorizontal: 40, // Adds horizontal padding of 20 points (2 cm approximately)
-    },
     container: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
         padding: 20,
-        top: 30,
-        alignItems: 'center',
+        marginVertical: 10,
+        elevation: 2,
     },
-    contentContainer: {
-        borderWidth: 0, // Añadido un borde delgado
-        borderColor: '#666', // Darker gray color for the border
-        borderRadius: 7, // Rounded corners of the border
-        backgroundColor: '#fff', // Background color white
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
+    column: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5, // Añadimos un espacio entre el título y el valor
+    },
+    value: {
+        fontSize: 16,
+        color: '#666',
+    },
+    descriptionValue: {
+        fontStyle: 'italic',
+        color: 'blue',
+    },
+    button: {
+        marginTop: 20,
     },
 });
 
-export default PlantDescripcion;
+export default AgendaComponente;

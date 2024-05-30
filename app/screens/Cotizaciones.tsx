@@ -11,9 +11,11 @@ export default function Cotizaciones({navigation}: RouteProps) {
     return (
         <View>
             <PlantDescripcion
-                title={'Soldador'}
-                imageUrl="https://www.solyman.com/wp-content/uploads/2018/12/080917-F-4707M-119.jpg"
-                description={'sdfdsgfsdfsddfdsdfdsfsdfsdfsdsdfdsgfsdfsddfdsdfdsfsdfsdfsdsdfdsgfsdfsddfdsdfdsfsdfsdfsdsdfdsgfsdfsddfdsdfdssdfdsgfsdfsddfdsdfdsfsdfsdfsdsdfdsgfsdfsddfdsdfdsfsdfsdfsdsdfdsgfsdfsddfdsdfdsfsdfsdfsdfsdfsdfsdsdfdsgfsdfsddfdsdfdsfsdfsdfsdsdfdsgfsdfsddfdsdfdsfsdfsdfsd'}
+                descripcion={"Se cambiara la puerta del baño y se envaldocinara la cocina"}
+                direccion={"Cr 4-32 "}
+                fecha={"2022-06-01"}
+                hora={"9"}
+                precio={20000}
             />
         </View>
     );

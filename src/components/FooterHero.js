@@ -30,6 +30,11 @@ const FooterHero = () => {
         }
     };
 
+    const handlePressCotizaciones = () => {
+            navigation.navigate('Cotizaciones', { id_client: heroData.id });
+    };
+
+
     return (
         <View style={styles.container}>
             <View style={styles.iconButton}>
@@ -55,11 +60,13 @@ const FooterHero = () => {
                 <Text style={styles.text}>Inicio</Text>
             </TouchableOpacity>
             <View style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={handlePressCotizaciones}>
                 <Image
                     style={styles.image}
                     source={{uri: 'https://img.icons8.com/ios-filled/100/000000/receipt-dollar.png'}}
                 />
                 <Text style={styles.text}>Cotizaciones</Text>
+                </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.iconButton} onPress={handlePressVisitas}>
                 <Image
